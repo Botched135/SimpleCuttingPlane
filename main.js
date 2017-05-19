@@ -11,6 +11,7 @@ var Model = function()
 
 var Config = function()
 {
+    this.model = "sphere.obj"
     this.backgroundColor = [0,0,0];
     this.showShadowMap = false;
     this.rotateCamera = true;
@@ -103,6 +104,8 @@ var cameraRotY = 45;
 var shadowMapSize = 1024;
 var framebuffer;
 var shadowMapTex;
+var shadowCubemapTex;
+var shadowCubeMapFaces;
 
 
 function ResourceLoaded()
@@ -275,6 +278,17 @@ function InitFramebufferObject(width, height)
     gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,width,height,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+
+    //Create Cube shadowMap
+    shadowCubemapTex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP,shadowCubemapTex);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP,gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+    var faces
 
     //Create depthBuffer
     depthBuffer = gl.createRenderbuffer();
@@ -568,6 +582,12 @@ window.onload = function()
     gui.add(config,'showShadowMap');
     //Model
     var modelFolder = gui.addFolder('Model');
+    modelFolder.add(config, 'model', [ 'monkey.obj', 'sphere.obj' ] ).onChange(function (x) {
+        currentModel = config.model;
+        elementCount = 0;
+        numberOfResourcesToLoad++;
+        loadFileAJAX(config.model, modelLoaded, resourceLoadError);
+    });
     modelFolder.addColor(config,'modelColor');
 
     //Light
