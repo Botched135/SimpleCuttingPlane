@@ -1,3 +1,4 @@
+#version 300 es
 precision highp float;
 
 uniform int  isPlane;
@@ -14,11 +15,12 @@ uniform sampler2D shadowMapTexture;
 uniform float pDist;
 uniform vec3 pNormal;
 
-varying vec3 vWorldSpace;
-varying vec3 vNormalEyeSpace;
-varying vec3 vLightDirEyeSpace;
-varying vec4 vPositionFromLight;
+in vec3 vWorldSpace;
+in vec3 vNormalEyeSpace;
+in vec3 vLightDirEyeSpace;
+in vec4 vPositionFromLight;
 
+out vec4 colour_Out;
 float unpackDepth(const in vec4 rgba_depth)
 {
     const vec4 bit_shift = vec4(1.0/(256.0*256.0*256.0), 1.0/(256.0*256.0), 1.0/256.0, 1.0);
@@ -38,7 +40,7 @@ void main()
 
     //Shadows
     vec3 shadowCoord = (vPositionFromLight.xyz/vPositionFromLight.w);
-    vec4 depthShadow = texture2D(shadowMapTexture,shadowCoord.xy);
+    vec4 depthShadow = texture(shadowMapTexture,shadowCoord.xy);
     float depth = unpackDepth(depthShadow);
     float visibility = 1.0;
 
@@ -49,7 +51,7 @@ void main()
     if(isPlane == 1)
     {
            color = (vec4(0.5,0.5,0.5,1.0)*(ambientColor+diffuseColorOut));
-           gl_FragColor = vec4(color.xyz*visibility,color.w);
+           colour_Out = vec4(color.xyz*visibility,color.w);
     }
 
     else
@@ -65,13 +67,13 @@ void main()
             color = vec4(1.0,0.0,0.0,1.0);
 
 
-        gl_FragColor = vec4(color.xyz*visibility,color.w);
+        colour_Out = vec4(color.xyz*visibility,color.w);
         }
         else
         {
             color =modelColor*(ambientColor+diffuseColorOut);
 
-            gl_FragColor = vec4(color.xyz*visibility,color.w);
+            colour_Out = vec4(color.xyz*visibility,color.w);
         }
     }
 

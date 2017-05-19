@@ -1,7 +1,8 @@
+#version 300 es
 precision highp float;
 
-attribute vec4 vertex;
-attribute vec3 normal;
+in vec4 vertex;
+in vec3 normal;
 
 uniform vec3 lightDir;
 
@@ -11,10 +12,10 @@ uniform mat4 projection;
 uniform mat4 normalTrans;
 uniform mat4 lightVP;
 
-varying vec3 vWorldSpace;
-varying vec3 vNormalEyeSpace;
-varying vec3 vLightDirEyeSpace;
-varying vec4 vPositionFromLight;
+out vec3 vWorldSpace;
+out vec3 vNormalEyeSpace;
+out vec3 vLightDirEyeSpace;
+out vec4 vPositionFromLight;
 
 
 void main()

@@ -409,7 +409,7 @@ function Setup()
 {
     canvas = document.getElementById('webgl-canvas');
 
-    gl = canvas.getContext("webgl")|| canvas.getContext("experimental-webgl");
+    gl = canvas.getContext("webgl2");
 
     gl = WebGLDebugUtils.makeDebugContext(gl);
 
