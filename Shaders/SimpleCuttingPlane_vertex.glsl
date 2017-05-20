@@ -30,6 +30,7 @@ void main()
     vWorldSpace = (model*vertex).xyz;
     vNormalEyeSpace = (normalTrans*vec4(normal,1.0)).xyz;
 
+
     vIncidentLight = (view*(vec4(lightPos,1)-model*vertex)).xyz;
     vLightDirEyeSpace = (view*-(vec4(lightDir,0.0))).xyz;
 }

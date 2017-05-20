@@ -13,6 +13,7 @@ uniform vec4 diffuseColor;
 
 //Shadow Map
 uniform sampler2D shadowMapTexture;
+uniform samplerCube shadowCube;
 
 
 //Cutting Plane
@@ -51,7 +52,7 @@ void main()
     else
     {
         distance = length(vIncidentLight);
-        distance = distance > 0.0 ? distance :0.0;
+
         att = 1.0/(attenutaion.x+(attenutaion.y*distance)+(attenutaion.z*distance*distance));
         if(att > 1.0)
             att = 1.0;
