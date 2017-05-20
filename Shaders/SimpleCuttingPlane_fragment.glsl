@@ -1,8 +1,12 @@
 #version 300 es
 precision highp float;
 
+uniform int  lightType;
 uniform int  isPlane;
 uniform int  activePlane;
+
+uniform vec3 attenutaion;
+
 uniform vec4 modelColor;
 uniform vec4 ambientColor;
 uniform vec4 diffuseColor;
@@ -18,7 +22,9 @@ uniform vec3 pNormal;
 in vec3 vWorldSpace;
 in vec3 vNormalEyeSpace;
 in vec3 vLightDirEyeSpace;
+in vec3 vIncidentLight;
 in vec4 vPositionFromLight;
+
 
 out vec4 colour_Out;
 float unpackDepth(const in vec4 rgba_depth)
@@ -32,11 +38,31 @@ void main()
 {
 
     vec4 color;
+    vec3 halfWayVec;
     vec3 normalES = normalize(vNormalEyeSpace);
     vec3 lightDir = normalize(vLightDirEyeSpace);
-    float diffuse = max(0.0,dot(normalES,lightDir));
+    float diffuse, att, distance;
+    if(lightType ==0)
+    {
+        att = 1.0;
 
-    vec4 diffuseColorOut = diffuseColor*diffuse;
+        diffuse = max(dot(normalES,lightDir),0.0);
+    }
+    else
+    {
+        distance = length(vIncidentLight);
+        distance = distance > 0.0 ? distance :0.0;
+        att = 1.0/(attenutaion.x+(attenutaion.y*distance)+(attenutaion.z*distance*distance));
+        if(att > 1.0)
+            att = 1.0;
+        else if(att < 0.0)
+            att = 0.0;
+
+        diffuse = max(dot(normalize(vIncidentLight),normalES),0.0);
+    }
+
+
+    vec4 diffuseColorOut = diffuseColor*diffuse*att;
 
     //Shadows
     vec3 shadowCoord = (vPositionFromLight.xyz/vPositionFromLight.w);
@@ -44,7 +70,7 @@ void main()
     float depth = unpackDepth(depthShadow);
     float visibility = 1.0;
 
-    if(shadowCoord.z > depth+0.25)
+    if(shadowCoord.z > depth+0.1)
     {
         visibility = 0.7;
     }
@@ -76,5 +102,6 @@ void main()
             colour_Out = vec4(color.xyz*visibility,color.w);
         }
     }
+   // colour_Out = vec4(distance,0.0,0.0,1.0);
 
 }
