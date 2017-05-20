@@ -21,16 +21,10 @@ vec4 packDepth(const in float depth)
 
 void main()
 {
-
     if(isPlane == 0 && activePlane ==1)
     {
         if(dot(pNormal,vWorldPos)+pDist >= 0.0)
             discard;
     }
-    if(!gl_FrontFacing)
-    {
-        //Do something smart
-    }
-
     colour_Out = packDepth(gl_FragCoord.z);
 }
