@@ -12,7 +12,7 @@ var Model = function()
 var Config = function()
 {
     this.model = "sphere.obj"
-    this.lightType = 1;
+    this.lightType = 0;
     this.backgroundColor = [0,0,0];
     this.showShadowMap = false;
     this.rotateCamera = true;
@@ -21,6 +21,9 @@ var Config = function()
     this.ambientlightIntensity = 0.2;
     this.diffuselightColor = [ 255 , 255 , 255 ];
     this.diffuselightIntensity = 0.6;
+    this.specularlightColor = [255, 255, 255];
+    this.specularlightIntensity = 1.0;
+    this.specularlightExponent = 60.0;
     this.activePlane = true;
     this.visualizePlane = false;
     this.attenuation =
@@ -33,7 +36,7 @@ var Config = function()
         {
             x: 0.0,
             y: -1.0,
-            z: 0.0
+            z: -1.0
         };
     this.lightPos =
         {
@@ -53,12 +56,12 @@ var Config = function()
     this.cuttingPlaneTrans =
         {
             x: 0.0,
-            y: 1.0,
-            z: 0.6
+            y: 0.0,
+            z: 0.0
         };
     this.cuttingPlaneRot =
         {
-            rotX : -90.0,
+            rotX : -54.0,
             rotY : 0.0,
             rotZ : 0.0
 
@@ -129,6 +132,15 @@ var shadowCubemapDirections =
         vec3(0.0,-1.0,0.0),
         vec3(0.0,0.0,1.0),
         vec3(0.0,0.0,-1.0)
+    ];
+var shadowCubemapUpDirection =
+    [
+        vec3(0.0,1.0,0.0),
+        vec3(0.0,1.0,0.0),
+        vec3(-1.0,0.0,0.0),
+        vec3(1.0,0.0,0.0),
+        vec3(0.0,1.0,0.0),
+        vec3(0.0,1.0,0.0)
     ];
 
 
@@ -358,7 +370,6 @@ function InitFramebufferObject(width, height)
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-
     //Create Cube shadowMap
     shadowCubemapTex = gl.createTexture();
 
@@ -414,11 +425,12 @@ function InitFramebufferObject(width, height)
         return error();
     }
 
-    framebuffer.texture = shadowMapTex;
-    //framebuffer.texture = shadowCubemapTex;
+    //framebuffer.texture = shadowMapTex;
+    framebuffer.texture = shadowCubemapTex;
 
     gl.bindFramebuffer(gl.FRAMEBUFFER,null);
-    gl.bindTexture(gl.TEXTURE_CUBE_MAP,null);
+    gl.bindTexture(gl.TEXTURE_2D,null);
+    //gl.bindTexture(gl.TEXTURE_CUBE_MAP,null);
     gl.bindRenderbuffer(gl.RENDERBUFFER,null);
 
     return framebuffer;
@@ -633,7 +645,7 @@ function Draw()
     }
 
     //SHADOW CUBE MAP
-
+/*
     var CubeProjection = perspective(90,1.0,0.0,4.0);
     var CubeView;
     for(var i = 0; i < shadowCubeMapFaces.length;i++)
@@ -642,7 +654,7 @@ function Draw()
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         CubeView = lookAt([config.lightPos.x,config.lightPos.y,config.lightPos.z],[config.lightPos.x+shadowCubemapDirections[i][0],
                                                                                    config.lightPos.y+shadowCubemapDirections[i][1],
-                                                                                   config.lightPos.z+shadowCubemapDirections[i][2]],[1,0,0]);
+                                                                                   config.lightPos.z+shadowCubemapDirections[i][2]],shadowCubemapUpDirection[i]);
         CubeProjection = mult(CubeProjection,CubeView);
         gl.uniformMatrix4fv(gl.getUniformLocation(depthShaderId,"lightVP"),false, flatten(CubeProjection));
 
@@ -654,8 +666,8 @@ function Draw()
         DrawSphere(depthShaderId,model,view);
         DrawMonkey(depthShaderId,monkeyModel,view);
     }
+*/
 
-    /*
         //perspective(90,1.0,0.0,4);
     //SIMPLE SHADOW MAP
     var lightDir = vec3(config.lightDir.x,config.lightDir.y,config.lightDir.z);
@@ -675,7 +687,7 @@ function Draw()
     DrawMonkey(depthShaderId,monkeyModel,view);
 
 
-*/
+
     //NORMAL RENDERING
     if(!config.showShadowMap)
     {
@@ -690,6 +702,7 @@ function Draw()
         gl.uniform1i(gl.getUniformLocation(shaderId,"lightType"),config.lightType);
         gl.uniform3fv(gl.getUniformLocation(shaderId, "lightDir"), new Float32Array([config.lightDir.x, config.lightDir.y, config.lightDir.z]));
         gl.uniform3fv(gl.getUniformLocation(shaderId,"lightPos"), new Float32Array([config.lightPos.x,config.lightPos.y,config.lightPos.z]));
+
         gl.uniform3fv(gl.getUniformLocation(shaderId,"attenuation"),new Float32Array([config.attenuation.constant,config.attenuation.linear,config.attenuation.quadratic]));
 
         gl.uniform1i(gl.getUniformLocation(shaderId, "activePlane"), config.activePlane ? 1 : 0);
@@ -704,11 +717,13 @@ function Draw()
                                                                                    eye[2]/*config.cameraPos.z*/]));
 
 
-
+        //Colors
         var mColor = hexToRgb(config.modelColor);
         gl.uniform4fv(gl.getUniformLocation(shaderId, "modelColor"), new Float32Array([mColor[0], mColor[1], mColor[2], 1.0]));
         gl.uniform4fv(gl.getUniformLocation(shaderId, "diffuseColor"), scaleLight(config.diffuselightIntensity, config.diffuselightColor));
         gl.uniform4fv(gl.getUniformLocation(shaderId, "ambientColor"), scaleLight(config.ambientlightIntensity, config.ambientlightColor));
+        gl.uniform4fv(gl.getUniformLocation(shaderId, "specularColor"),scaleLight(config.specularlightIntensity,config.specularlightColor));
+        gl.uniform1f(gl.getUniformLocation(shaderId, "specularExponent"),config.specularlightExponent);
 
         if (config.activePlane)
         {
@@ -797,18 +812,25 @@ window.onload = function()
     var ambientFolder = lightFolder.addFolder('Ambient Light');
     ambientFolder.addColor(config, 'ambientlightColor');
     ambientFolder.add(config, 'ambientlightIntensity');
-    var DirLightFolder = lightFolder.addFolder('Directional Light');
+    var diffuseFolder = lightFolder.addFolder('Diffuse Light');
+    diffuseFolder.addColor(config,'diffuselightColor');
+    diffuseFolder.add(config,'diffuselightIntensity');
+    var specularFolder = lightFolder.addFolder('Specular Highlight');
+    specularFolder.addColor(config,'specularlightColor');
+    specularFolder.add(config,'specularlightIntensity');
+    specularFolder.add(config,'specularlightExponent');
+    var DirLightFolder = lightFolder.addFolder('Light Direction');
     var lightPosFolder = lightFolder.addFolder('Light Position');
     lightPosFolder.add(config.lightPos,'x');
     lightPosFolder.add(config.lightPos,'y');
     lightPosFolder.add(config.lightPos,'z');
-    var lightDirFolder = DirLightFolder.addFolder('Light Direction');
-    lightDirFolder.add(config.lightDir,'x').step(0.1);
-    lightDirFolder.add(config.lightDir,'y').step(0.1);
-    lightDirFolder.add(config.lightDir,'z').step(0.1);
-    var diffuseFolder = lightFolder.addFolder('Diffuse Light');
-    diffuseFolder.addColor(config,'diffuselightColor');
-    diffuseFolder.add(config,'diffuselightIntensity');
+
+    DirLightFolder.add(config.lightDir,'x').step(0.1);
+    DirLightFolder.add(config.lightDir,'y').step(0.1);
+    DirLightFolder.add(config.lightDir,'z').step(0.1);
+
+
+    //Camera
     var cameraFolder = gui.addFolder('Camera');
     cameraFolder.add(config.cameraPos,'x');
     cameraFolder.add(config.cameraPos,'y');

@@ -20,6 +20,7 @@ out vec3 vNormalEyeSpace;
 out vec3 vLightDirEyeSpace;
 out vec3 vIncidentLight;
 out vec4 vPositionFromLight;
+out vec3 vVertexES;
 out vec3 vViewDir;
 
 
@@ -28,12 +29,14 @@ void main()
     vPositionFromLight = lightVP * model * vertex;
     vPositionFromLight.xyz = vPositionFromLight.xyz*0.5+vec3(0.5,0.5,0.5);
 
+    vVertexES = -(view*model*vertex).xyz;
     gl_Position = projection*view*model*vertex;
 
     vWorldSpace = (model*vertex).xyz;
-    vNormalEyeSpace = (normalTrans*vec4(normal,1.0)).xyz;
+    vNormalEyeSpace = (normalTrans*vec4(normal,0.0)).xyz;
 
-    vViewDir = (model*vertex).xyz-EyePos;
-    vIncidentLight = (view*(vec4(lightPos,1)-model*vertex)).xyz;
+    //vViewDir = (model*vertex).xyz-EyePos;
+    vViewDir = (view*model*vertex).xyz;
+    vIncidentLight = (view*(vec4(lightPos,1.0)-model*vertex)).xyz;
     vLightDirEyeSpace = (view*-(vec4(lightDir,0.0))).xyz;
 }
