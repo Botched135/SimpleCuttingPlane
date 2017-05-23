@@ -34,13 +34,25 @@ in vec3 vIncidentLight;
 in vec3 vVertexES;
 in vec4 vPositionFromLight;
 
-
 out vec4 colour_Out;
+
 float unpackDepth(const in vec4 rgba_depth)
 {
     const vec4 bit_shift = vec4(1.0/(256.0*256.0*256.0), 1.0/(256.0*256.0), 1.0/256.0, 1.0);
     float depth = dot(rgba_depth, bit_shift);
     return depth;
+}
+
+
+float CubeMapShadow(in vec3 VertexCoord, in float bias, in float darkness)
+{
+    vec3 direction = VertexCoord-lightPos;
+    float vertexDepth = clamp(length(direction),0.0,3.0);
+    vertexDepth = vertexDepth/3.0;
+    float shadowMapDepth = unpackDepth(texture(shadowCube,normalize(direction)))+bias;
+
+    return shadowMapDepth;
+
 }
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {
@@ -59,17 +71,21 @@ void main()
     if(dot(pNormal,vWorldSpace)+pDist >= 0.0 && isPlane == 0 && activePlane ==1)
         discard;
     //Shadows
-    vec3 shadowCoord = (vPositionFromLight.xyz/vPositionFromLight.w);
-    vec4 depthShadow = texture(shadowMapTexture,shadowCoord.xy);
-    float depth = unpackDepth(depthShadow);
-    float visibility = 1.0;
-    vec3 towardEye = normalize(-vViewDir);
-    if(shadowCoord.z > depth+0.1)
+    float visibility;
+    if(lightType == 0)
     {
-    //   visibility = 0.7;
+        vec3 shadowCoord =(vPositionFromLight.xyz/vPositionFromLight.w);
+        vec4 depthShadow = texture(shadowMapTexture,shadowCoord.xy);
+        float depth = unpackDepth(depthShadow);
+        visibility = (shadowCoord.z > depth+0.1) ? 0.6 : 1.0;
     }
+    else
+        visibility =CubeMapShadow(vWorldSpace,0.1,0.3);
+
+
     vec4 color;
 
+    vec3 towardEye = normalize(-vViewDir);
     vec3 halfWayVec;
     vec3 normalES = normalize(vNormalEyeSpace);
     vec3 lightDir = normalize(vLightDirEyeSpace);
@@ -133,9 +149,11 @@ void main()
     else
     {
         vec3 tPviewPNormal = (transpose(inverse(view))*vec4(pNormal,0.0)).xyz;
+        vec3 insecPoint = intersectionPoint(vWorldSpace,towardEye);
+        vec3 noiseColor;
         if(lightType ==0)
         {
-            vec3 halfWayPoint = (view*vec4(intersectionPoint(vWorldSpace,towardEye),1.0)).xyz;
+            vec3 halfWayPoint = (view*vec4(insecPoint,1.0)).xyz;
             att = 1.0;
             vec3 tPviewPNormal = (transpose(inverse(view))*vec4(pNormal,0.0)).xyz;
             diffuse = max(dot(pNormal,lightDir),0.0);
@@ -147,13 +165,15 @@ void main()
                 specularColorOut = pow(specular,specularExponent) * specularColor*att;
             else
                 specularColorOut = vec4(0.0,0.0,0.0,0.0);
+
+            //noiseColor = vec3(simplexNoise(10.0*insecPoint.xy)*0.5+0.5);
         }
         else
         {
             float dotProd = dot(pNormal,towardEye);
             if(dotProd > 0.0)
             {
-                vec3 insecPoint = intersectionPoint(vWorldSpace,towardEye);
+
                 vec3 planeIncidentLight = (view*vec4(lightPos-insecPoint,0.0)).xyz;
 
                 distance = length(planeIncidentLight);
@@ -172,6 +192,8 @@ void main()
                     specularColorOut = pow(specular,specularExponent) * specularColor*att;
                 else
                     specularColorOut = vec4(0.0,0.0,0.0,0.0);
+
+                //noiseColor = vec3(simplexNoise(10.0*insecPoint.xz)*0.5+0.5);
             }
         }
 
@@ -185,10 +207,11 @@ void main()
         }
         else
         {
+
             color =modelColor*(ambientColor+diffuseColorOut+specularColorOut);
             color.w = 1.0;
             colour_Out = vec4(color.xyz*visibility,color.w);
         }
     }
-
+   // colour_Out = vec4(visibility,0.0,0.0,1.0);
 }
