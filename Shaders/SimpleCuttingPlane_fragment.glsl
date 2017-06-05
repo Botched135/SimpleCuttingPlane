@@ -42,6 +42,17 @@ float unpackDepth(const in vec4 rgba_depth)
     float depth = dot(rgba_depth, bit_shift);
     return depth;
 }
+/*
+float CubeMapShadow(in float bias, in float darkness)
+{
+   vec3 direction = vWorldSpace-lightPos;
+   float vertexDepth = clamp(length(direction),0.0,1.0);
+
+   float shadowMapDepth = unpackDepth(texture(shadowCube,direction))+bias;
+
+   return shadowMapDepth;
+
+}*/
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {
     vec3 res;
@@ -58,15 +69,25 @@ void main()
 {
     if(dot(pNormal,vWorldSpace)+pDist >= 0.0 && isPlane == 0 && activePlane ==1)
         discard;
-    //Shadows
-    vec3 shadowCoord = (vPositionFromLight.xyz/vPositionFromLight.w);
-    vec4 depthShadow = texture(shadowMapTexture,shadowCoord.xy);
-    float depth = unpackDepth(depthShadow);
+
     float visibility = 1.0;
     vec3 towardEye = normalize(-vViewDir);
-    if(shadowCoord.z > depth+0.1)
+    //Shadows
+    if(lightType == 0)
     {
-    //   visibility = 0.7;
+        vec3 shadowCoord = (vPositionFromLight.xyz/vPositionFromLight.w);
+        vec4 depthShadow = texture(shadowMapTexture,shadowCoord.xy);
+        float depth = unpackDepth(depthShadow);
+
+        if(shadowCoord.z > depth+0.1)
+        {
+            visibility = 0.7;
+        }
+    }
+    else if(lightType ==1)
+    {
+        //currently error here.
+       // vec4 something = texture(shadowCube,vWorldSpace-lightPos);
     }
     vec4 color;
 
