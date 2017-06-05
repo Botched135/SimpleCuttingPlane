@@ -26,8 +26,8 @@ void main()
         if(dot(pNormal,vWorldPos)+pDist >= 0.0)
             discard;
     }
-    if(!gl_FrontFacing)
-        colour_Out = packDepth(gl_FragCoord.z);
+        if(gl_FrontFacing)
+            discard;
 
         colour_Out = packDepth(gl_FragCoord.z);
 }

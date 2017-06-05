@@ -18,9 +18,9 @@ uniform mat4 view;
 uniform vec3 lightPos;
 
 //Shadow Map
-uniform sampler2D shadowMapTexture;
+//uniform sampler2D shadowMapTexture;
 uniform samplerCube shadowCube;
-
+uniform float shadowBias;
 
 //Cutting Plane
 uniform float pDist;
@@ -42,17 +42,32 @@ float unpackDepth(const in vec4 rgba_depth)
     float depth = dot(rgba_depth, bit_shift);
     return depth;
 }
-/*
-float CubeMapShadow(in float bias, in float darkness)
+
+float CubeMapShadow(float darkness)
 {
    vec3 direction = vWorldSpace-lightPos;
-   float vertexDepth = clamp(length(direction),0.0,1.0);
+   float fragDepth =clamp(length(direction),0.0,1.0);
 
-   float shadowMapDepth = unpackDepth(texture(shadowCube,direction))+bias;
+   float shadowMapDepth = unpackDepth(texture(shadowCube,direction))+shadowBias;
 
-   return shadowMapDepth;
+   return (fragDepth > shadowMapDepth) ? darkness : 1.0;
 
-}*/
+}
+float VectorToDepthValue(vec3 vector)
+{
+    vec3 AbsVec= abs(vector);
+    float LocalZcomp = max(AbsVec.x,max(AbsVec.y,AbsVec.z));
+
+    const float f = 2048.0;
+    const float n = 1.0;
+    float NormZCom = (f+n)/(f-n)-(2.0*f*n)/(f-n)/LocalZcomp;
+    return (NormZCom+1.0)*0.5;
+}
+float ComputeShadowFactor(vec3 lightToFrag, float darkness)
+{
+    float ShadowVec = unpackDepth(texture(shadowCube, lightToFrag));
+    return (ShadowVec + 0.0001) > VectorToDepthValue(lightToFrag) ? 1.0 : darkness;
+}
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {
     vec3 res;
@@ -73,7 +88,7 @@ void main()
     float visibility = 1.0;
     vec3 towardEye = normalize(-vViewDir);
     //Shadows
-    if(lightType == 0)
+   /* if(lightType == 0)
     {
         vec3 shadowCoord = (vPositionFromLight.xyz/vPositionFromLight.w);
         vec4 depthShadow = texture(shadowMapTexture,shadowCoord.xy);
@@ -85,10 +100,11 @@ void main()
         }
     }
     else if(lightType ==1)
-    {
+    {*/
         //currently error here.
-       // vec4 something = texture(shadowCube,vWorldSpace-lightPos);
-    }
+       // visibility = CubeMapShadow(0.1,0.6);
+       visibility = ComputeShadowFactor(vWorldSpace-lightPos,0.6);
+   // }
     vec4 color;
 
     vec3 halfWayVec;
@@ -211,5 +227,4 @@ void main()
             colour_Out = vec4(color.xyz*visibility,color.w);
         }
     }
-
 }
