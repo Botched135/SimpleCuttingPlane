@@ -656,7 +656,7 @@ function Draw()
     var groundPlaneModelMat = translate(0,config.groundHeight,0);
 
     //
-    var wallPlaneModelMat =  rotateX(90);
+    var wallPlaneModelMat =  rotateX(-90);
     wallPlaneModelMat = mult(translate(0,config.groundHeight+4,-4),wallPlaneModelMat);
     //Model & view matrices
     var model = mat4();
@@ -707,7 +707,7 @@ function Draw()
     }*/
    // else if(config.lightType ==1)
    // {
-        CubeProjection = perspective(90, 1.0, 1.0, 25.0);
+        CubeProjection = perspective(90, 1.0, 1.0, 250.0);
         gl.useProgram(depthShaderId);
 
 

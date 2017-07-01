@@ -27,7 +27,7 @@
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="6" lean-forward="true" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
+              <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -39,27 +39,10 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="706" column="7" lean-forward="true" selection-start-line="706" selection-start-column="7" selection-end-line="706" selection-end-column="7" />
+            <state relative-caret-position="314">
+              <caret line="709" column="54" lean-forward="false" selection-start-line="709" selection-start-column="54" selection-end-line="709" selection-end-column="54" />
               <folding>
                 <element signature="e#0#41#0" expanded="false" />
-                <element signature="n#!!block;n#CreateArrow#0" expanded="false" />
-                <element signature="n#!!block;n#CreateStar#0" expanded="false" />
-                <element signature="n#!!block;n#ModelLoad#0" expanded="false" />
-                <element signature="n#!!block;n#MonkeyModelLoad#0" expanded="false" />
-                <element signature="n#!!block;n#CreateSquare#0" expanded="false" />
-                <element signature="n#!!block;n#CreateCuttingPlane#0" expanded="false" />
-                <element signature="n#!!block;n#CreateSimpleCutPlane#0" expanded="false" />
-                <element signature="n#!!block;n#InitFramebufferObject#0" expanded="false" />
-                <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-                <element signature="n#!!block;n#DrawSphere#0" expanded="false" />
-                <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-                <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-                <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-                <element signature="n#!!block;n#scaleLight#0" expanded="false" />
-                <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-                <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-                <element signature="n#!!block;n#MouseMove#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -69,7 +52,7 @@
         <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="442">
-              <caret line="26" column="11" lean-forward="true" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
+              <caret line="26" column="11" lean-forward="false" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -88,8 +71,8 @@
       <file leaf-file-name="ShadowDepth_fragment.glsl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="7" lean-forward="false" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+            <state relative-caret-position="510">
+              <caret line="30" column="2" lean-forward="false" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -98,8 +81,8 @@
       <file leaf-file-name="SimpleCuttingPlane_fragment.glsl" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="68" column="30" lean-forward="false" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
+            <state relative-caret-position="-1938">
+              <caret line="68" column="27" lean-forward="false" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -118,9 +101,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>numberOfR</find>
-      <find>CreateArrow</find>
-      <find>Draw</find>
       <find>light</find>
       <find>DrawArrow</find>
       <find>ground</find>
@@ -148,6 +128,9 @@
       <find>InitFrame</find>
       <find>shadowCubemapTex</find>
       <find>Front</find>
+      <find>plane</find>
+      <find>90</find>
+      <find>resize</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -170,9 +153,9 @@
         <option value="$PROJECT_DIR$/Shaders/LightModel_fragment.glsl" />
         <option value="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/main.js" />
-        <option value="$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl" />
         <option value="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl" />
+        <option value="$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl" />
+        <option value="$PROJECT_DIR$/main.js" />
       </list>
     </option>
   </component>
@@ -189,10 +172,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1912" />
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
-    <option name="height" value="1096" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -402,41 +385,32 @@
       <workItem from="1495348881069" duration="16368000" />
       <workItem from="1495390899158" duration="7155000" />
       <workItem from="1495435136462" duration="9967000" />
+      <workItem from="1496911737788" duration="4402000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="143772000" />
+    <option name="totallyTimeSpent" value="148174000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25052083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25052083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -451,13 +425,11 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/main.js</url>
           <line>278</line>
-          <properties />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/main.js</url>
           <line>323</line>
-          <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
@@ -472,23 +444,6 @@
           <caret line="217" column="19" lean-forward="false" selection-start-line="217" selection-start-column="19" selection-end-line="217" selection-end-column="19" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
-            <element signature="n#!!block;n#CreateArrow#0" expanded="false" />
-            <element signature="n#!!block;n#CreateStar#0" expanded="false" />
-            <element signature="n#!!block;n#ModelLoad#0" expanded="false" />
-            <element signature="n#!!block;n#MonkeyModelLoad#0" expanded="false" />
-            <element signature="n#!!block;n#CreateSquare#0" expanded="false" />
-            <element signature="n#!!block;n#CreateCuttingPlane#0" expanded="false" />
-            <element signature="n#!!block;n#CreateSimpleCutPlane#0" expanded="false" />
-            <element signature="n#!!block;n#InitFramebufferObject#0" expanded="false" />
-            <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-            <element signature="n#!!block;n#DrawSphere#0" expanded="false" />
-            <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-            <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-            <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-            <element signature="n#!!block;n#scaleLight#0" expanded="false" />
-            <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-            <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-            <element signature="n#!!block;n#MouseMove#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -526,23 +481,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
-            <element signature="n#!!block;n#CreateArrow#0" expanded="false" />
-            <element signature="n#!!block;n#CreateStar#0" expanded="false" />
-            <element signature="n#!!block;n#ModelLoad#0" expanded="false" />
-            <element signature="n#!!block;n#MonkeyModelLoad#0" expanded="false" />
-            <element signature="n#!!block;n#CreateSquare#0" expanded="false" />
-            <element signature="n#!!block;n#CreateCuttingPlane#0" expanded="false" />
-            <element signature="n#!!block;n#CreateSimpleCutPlane#0" expanded="false" />
-            <element signature="n#!!block;n#InitFramebufferObject#0" expanded="false" />
-            <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-            <element signature="n#!!block;n#DrawSphere#0" expanded="false" />
-            <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-            <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-            <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-            <element signature="n#!!block;n#scaleLight#0" expanded="false" />
-            <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-            <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-            <element signature="n#!!block;n#MouseMove#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -587,23 +525,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
-            <element signature="n#!!block;n#CreateArrow#0" expanded="false" />
-            <element signature="n#!!block;n#CreateStar#0" expanded="false" />
-            <element signature="n#!!block;n#ModelLoad#0" expanded="false" />
-            <element signature="n#!!block;n#MonkeyModelLoad#0" expanded="false" />
-            <element signature="n#!!block;n#CreateSquare#0" expanded="false" />
-            <element signature="n#!!block;n#CreateCuttingPlane#0" expanded="false" />
-            <element signature="n#!!block;n#CreateSimpleCutPlane#0" expanded="false" />
-            <element signature="n#!!block;n#InitFramebufferObject#0" expanded="false" />
-            <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-            <element signature="n#!!block;n#DrawSphere#0" expanded="false" />
-            <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-            <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-            <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-            <element signature="n#!!block;n#scaleLight#0" expanded="false" />
-            <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-            <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-            <element signature="n#!!block;n#MouseMove#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -709,53 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="471" column="9" lean-forward="false" selection-start-line="471" selection-start-column="9" selection-end-line="471" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="11" lean-forward="true" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="6" lean-forward="true" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="706" column="7" lean-forward="true" selection-start-line="706" selection-start-column="7" selection-end-line="706" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-            <element signature="n#!!block;n#CreateArrow#0" expanded="false" />
-            <element signature="n#!!block;n#CreateStar#0" expanded="false" />
-            <element signature="n#!!block;n#ModelLoad#0" expanded="false" />
-            <element signature="n#!!block;n#MonkeyModelLoad#0" expanded="false" />
-            <element signature="n#!!block;n#CreateSquare#0" expanded="false" />
-            <element signature="n#!!block;n#CreateCuttingPlane#0" expanded="false" />
-            <element signature="n#!!block;n#CreateSimpleCutPlane#0" expanded="false" />
-            <element signature="n#!!block;n#InitFramebufferObject#0" expanded="false" />
-            <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-            <element signature="n#!!block;n#DrawSphere#0" expanded="false" />
-            <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-            <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-            <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-            <element signature="n#!!block;n#scaleLight#0" expanded="false" />
-            <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-            <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-            <element signature="n#!!block;n#MouseMove#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -767,18 +641,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="709" column="54" lean-forward="false" selection-start-line="709" selection-start-column="54" selection-end-line="709" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="7" lean-forward="false" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+        <state relative-caret-position="510">
+          <caret line="30" column="2" lean-forward="false" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="11" lean-forward="false" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="68" column="30" lean-forward="false" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
+        <state relative-caret-position="-1938">
+          <caret line="68" column="27" lean-forward="false" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
           <folding />
         </state>
       </provider>
