@@ -18,6 +18,7 @@ uniform mat4 view;
 uniform vec3 lightPos;
 
 //Shadow Map
+//TODO: Implement a smart way of having both directional and omnidirectional shadowmapping
 //uniform sampler2D shadowMapTexture;
 uniform samplerCube shadowCube;
 uniform float shadowBias;
@@ -42,17 +43,6 @@ float unpackDepth(const in vec4 rgba_depth)
     const vec4 bit_shift = vec4(1.0/(256.0*256.0*256.0), 1.0/(256.0*256.0), 1.0/256.0, 1.0);
     float depth = dot(rgba_depth, bit_shift);
     return depth;
-}
-
-float CubeMapShadow(float darkness)
-{
-   vec3 direction = vWorldSpace-lightPos;
-   float fragDepth =clamp(length(direction),0.0,1.0);
-
-   float shadowMapDepth = unpackDepth(texture(shadowCube,direction))+shadowBias;
-
-   return (fragDepth > shadowMapDepth) ? darkness : 1.0;
-
 }
 float VectorToDepthValue(vec3 vector)
 {
