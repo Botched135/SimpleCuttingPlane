@@ -33,6 +33,7 @@ in vec3 vLightDirEyeSpace;
 in vec3 vIncidentLight;
 in vec3 vVertexES;
 in vec4 vPositionFromLight;
+in vec3 pNormalView;
 
 
 out vec4 colour_Out;
@@ -170,17 +171,16 @@ void main()
     else
     {
         visibility = 1.0;
-        vec3 tPviewPNormal = (transpose(inverse(view))*vec4(pNormal,0.0)).xyz;
+
         if(lightType ==0)
         {
             vec3 halfWayPoint = (view*vec4(intersectionPoint(vWorldSpace,towardEye),1.0)).xyz;
             att = 1.0;
-            vec3 tPviewPNormal = (transpose(inverse(view))*vec4(pNormal,0.0)).xyz;
             diffuse = max(dot(pNormal,lightDir),0.0);
 
             //Specular
             halfWayVec = normalize(normalize(halfWayPoint)+lightDir);
-            specular = dot(halfWayVec,tPviewPNormal);
+            specular = dot(halfWayVec,pNormalView);
             if(specular > 0.0)
                 specularColorOut = pow(specular,specularExponent) * specularColor*att;
             else
@@ -201,11 +201,11 @@ void main()
                     att = 1.0;
 
 
-                diffuse = max(dot(normalize(planeIncidentLight),(transpose(inverse(view))*vec4(pNormal,1.0)).xyz),0.0);
+                diffuse = max(dot(normalize(planeIncidentLight),pNormalView),0.0);
 
                 halfWayVec = normalize(normalize(planeIncidentLight)+normalize(-(view*vec4(insecPoint,0.0)).xyz));
 
-                specular = dot(halfWayVec,tPviewPNormal);
+                specular = dot(halfWayVec,pNormalView);
                 if(specular > 0.0)
                     specularColorOut = pow(specular,specularExponent) * specularColor*att;
                 else

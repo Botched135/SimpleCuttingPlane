@@ -830,7 +830,10 @@ function Draw()
 
         //Back Plane
         DrawPlane(backWallPlane,shaderId,wallPlaneModelMat);
+
+        //Draw models
         gl.uniform1i(gl.getUniformLocation(shaderId, "isPlane"), 0);
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId,"normalMat"),false, transpose(inverse(view)));
         DrawSphere(shaderId, model, view);
         DrawMonkey(shaderId,monkeyModel,view);
 
