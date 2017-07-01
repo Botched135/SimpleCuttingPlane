@@ -41,9 +41,9 @@ var Config = function()
         };
     this.lightPos =
         {
-            x: 0.0,
-            y: 0.8,
-            z: 1.6
+            x: -0.3,
+            y: 0.4,
+            z: 0.5
 
         };
     this.cameraPos =
