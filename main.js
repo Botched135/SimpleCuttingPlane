@@ -11,7 +11,8 @@ var Model = function()
 
 var Config = function()
 {
-    this.lightType = 0;
+    this.model = "sphere.obj"
+    this.lightType = 1;
     this.backgroundColor = [0,0,0];
     this.showShadowMap = false;
     this.rotateCamera = true;
@@ -25,6 +26,7 @@ var Config = function()
     this.specularlightExponent = 60.0;
     this.activePlane = false;
     this.visualizePlane = false;
+    this.shadowBias = 0.5;
     this.attenuation =
         {
             constant : 1.0,
@@ -39,9 +41,9 @@ var Config = function()
         };
     this.lightPos =
         {
-            x: 2.0,
-            y: 2.5,
-            z: -2.5
+            x: 0.0,
+            y: 0.8,
+            z: 1.6
 
         };
     this.cameraPos =
@@ -66,7 +68,7 @@ var Config = function()
 
         };
     //Ground plane
-    this.groundHeight = -1.0;
+    this.groundHeight = -2.0;
 };
 
 var canvas;
@@ -120,6 +122,8 @@ var cameraRotY = 45;
 //ShadowMap
 var shadowMapSize = 1024;
 var framebuffer;
+var depthBuffer;
+var cubeFramebufferArray = [];
 var shadowMapTex;
 var shadowCubemapTex;
 var shadowCubeMapFaces;
@@ -134,12 +138,12 @@ var shadowCubemapDirections =
     ];
 var shadowCubemapUpDirection =
     [
-        [0.0,-1.0,0.0],
-        [0.0,-1.0,0.0],
-        [0.0,0.0,1.0],
-        [0.0,0.0,-1.0],
-        [0.0,-1.0,0.0],
-        [0.0,-1.0,0.0]
+        vec3(0.0,-1.0,0.0),
+        vec3(0.0,-1.0,0.0),
+        vec3(0.0,0.0,1.0),
+        vec3(0.0,0.0,-1.0),
+        vec3(0.0,-1.0,0.0),
+        vec3(0.0,-1.0,0.0)
     ];
 
 function ResourceLoaded()
@@ -336,12 +340,81 @@ function CreateSimpleCutPlane(pOne, pTwo, pThree)
     plane.distN = -dot(plane.normal,vec3(pOne));
     return plane;
 }
+function InitCubeFramebufferObject(width,height)
+{
+    var error = function() {
+        for(var i = 0; i < cubeFramebufferArray.length;i++)
+        {
+            if (cubeFramebufferArray[i]) gl.deleteFramebuffer(cubeFramebufferArray[i]);
+        }
+        cubeFramebufferArray.length = 0;
+        if (shadowCubemapTex) gl.deleteTexture(shadowCubemapTex);
+        if (depthBuffer) gl.deleteRenderbuffer(depthBuffer);
+        return null;
+    };
+
+    //Create Cube shadowMap
+    shadowCubemapTex = gl.createTexture();
+
+    if(!shadowCubemapTex)
+    {
+        console.log('Failed to create shadowCubemapTexture');
+        return error();
+    }
+    shadowCubeMapFaces =
+        [
+            gl.TEXTURE_CUBE_MAP_POSITIVE_X,
+            gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+            gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+            gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
+            gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
+            gl.TEXTURE_CUBE_MAP_NEGATIVE_Z
+        ];
+
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP,shadowCubemapTex);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP,gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+    for(var i = 0; i<6;i++)
+    {
+        gl.texImage2D(shadowCubeMapFaces[i],0,gl.RGBA, width,height,0, gl.RGBA, gl.UNSIGNED_BYTE,null);
+    }
+    depthBuffer = gl.createRenderbuffer();
+    gl.bindRenderbuffer(gl.RENDERBUFFER,depthBuffer);
+    gl.renderbufferStorage(gl.RENDERBUFFER,gl.DEPTH_COMPONENT16,width,height);
+    for(var i = 0; i<6;i++)
+    {
+        var frameBufferOBJ =  gl.createFramebuffer();
+
+        gl.bindFramebuffer(gl.FRAMEBUFFER, frameBufferOBJ);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,shadowCubeMapFaces[i],shadowCubemapTex,0);
+        gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.RENDERBUFFER, depthBuffer);
+
+
+        var configure = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+        if(gl.FRAMEBUFFER_COMPLETE !== configure)
+        {
+            console.log('FBO incomplete. Missing: '+configure.toString());
+            return error();
+        }
+        cubeFramebufferArray.push(frameBufferOBJ);
+    }
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP,null);
+    gl.bindRenderbuffer(gl.RENDERBUFFER,null);
+
+    return cubeFramebufferArray;
+
+}
 function InitFramebufferObject(width, height)
 {
-    var depthBuffer;
+
     var error = function() {
         if (framebuffer) gl.deleteFramebuffer(framebuffer);
-        if (shadowCubemapTex) gl.deleteTexture(shadowCubemapTex);
+        if (shadowMapTex) gl.deleteTexture(shadowMapTex);
         if (depthBuffer) gl.deleteRenderbuffer(depthBuffer);
         return null;
     };
@@ -367,37 +440,8 @@ function InitFramebufferObject(width, height)
     gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,width,height,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
     gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-/*
-    //Create Cube shadowMap
-    shadowCubemapTex = gl.createTexture();
-
-    if(!shadowCubemapTex)
-    {
-        console.log('Failed to create shadowCubemapTexture');
-        return error();
-    }
-    shadowCubeMapFaces =
-        [
-            gl.TEXTURE_CUBE_MAP_POSITIVE_X,
-            gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
-            gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
-            gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-            gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
-            gl.TEXTURE_CUBE_MAP_NEGATIVE_Z
-        ];
-
-    gl.bindTexture(gl.TEXTURE_CUBE_MAP,shadowCubemapTex);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP,gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
 
-    for(var i = 0; i< 6; i++)
-    {
-        gl.texImage2D(shadowCubeMapFaces[i],0, gl.RGBA, width, height,0, gl.RGBA,gl.UNSIGNED_BYTE,null);
-    }
-*/
     //Create depthBuffer
     depthBuffer = gl.createRenderbuffer();
     if(!depthBuffer)
@@ -411,7 +455,7 @@ function InitFramebufferObject(width, height)
 
     gl.bindFramebuffer(gl.FRAMEBUFFER,framebuffer);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, shadowMapTex,0);
-   // gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, shadowCubeMapFaces[0], shadowCubemapTex,0);
+
 
     gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.RENDERBUFFER, depthBuffer);
 
@@ -424,11 +468,9 @@ function InitFramebufferObject(width, height)
     }
 
     framebuffer.texture = shadowMapTex;
-    //framebuffer.texture = shadowCubemapTex;
 
     gl.bindFramebuffer(gl.FRAMEBUFFER,null);
     gl.bindTexture(gl.TEXTURE_2D,null);
-    //gl.bindTexture(gl.TEXTURE_CUBE_MAP,null);
     gl.bindRenderbuffer(gl.RENDERBUFFER,null);
 
     return framebuffer;
@@ -574,7 +616,8 @@ function Setup()
     loadFileAJAX("Objects/Sphere/sphere.obj",ModelLoad,ResourceLoadError);
     loadFileAJAX("Objects/Suzanne/monkey.obj",MonkeyModelLoad, ResourceLoadError);
 
-    InitFramebufferObject(shadowMapSize,shadowMapSize);
+    //InitFramebufferObject(shadowMapSize,shadowMapSize);
+    InitCubeFramebufferObject(shadowMapSize,shadowMapSize);
     //Create lightType Direction model
     lightArrow = CreateArrow();
     lightStar = CreateStar();
@@ -624,76 +667,35 @@ function Draw()
 
 
     //SHADOWS
-    if (!config.showShadowMap)
+    //SIMPLE SHADOW MAP
+    var CubeVP;
+    /*if(config.lightType ==0)
     {
-        gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-    }
-
-    gl.clearColor(0.0, 0.0, 0.0, 0.0);
-    gl.viewport(0, 0, shadowMapSize, shadowMapSize);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-
-    gl.useProgram(depthShaderId);
-
-    gl.uniform1i(gl.getUniformLocation(depthShaderId, "activePlane"), config.activePlane ? 1 : 0);
-    if (config.activePlane)
-    {
-        gl.uniform1f(gl.getUniformLocation(depthShaderId, "pDist"), simpleCutPlane.distN);
-        gl.uniform3fv(gl.getUniformLocation(depthShaderId, "pNormal"), new Float32Array([simpleCutPlane.normal[0], simpleCutPlane.normal[1], simpleCutPlane.normal[2]]));
-    }
-
-        //SHADOW CUBE MAP
-    var lightVP;
-    var CubeProjection;
-    var CubeView;
-    if(config.lightType === 1)
-    {
-        var i = 3;
-        for (var i = 0; i < 6; i++) {
-
-            if (!config.showShadowMap)
-                gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, shadowCubeMapFaces[i], shadowCubemapTex, 0);
-
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-            CubeProjection = perspective(90, 1.0, 0.1, 2000.0);
-            CubeView = lookAt([config.lightPos.x, config.lightPos.y, config.lightPos.z], [config.lightPos.x + shadowCubemapDirections[i][0],
-                config.lightPos.y + shadowCubemapDirections[i][1],
-                config.lightPos.z + shadowCubemapDirections[i][2]], shadowCubemapUpDirection[i]);
-
-
-            lightVP = mult(CubeProjection, CubeView);
-            gl.uniformMatrix4fv(gl.getUniformLocation(depthShaderId, "lightVP"), false, flatten(lightVP));
-
-            gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 1);
-            DrawPlane(groundPlane, depthShaderId, groundPlaneModelMat);
-            DrawPlane(backWallPlane, depthShaderId, wallPlaneModelMat);
-
-            gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 0);
-            DrawSphere(depthShaderId, model, view);
-            DrawMonkey(depthShaderId, monkeyModel, view);
-
-        }
-
-    }
-    else
-    {
-        if (!config.showShadowMap)
+        if(!config.showShadowMap)
         {
-            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, shadowMapTex, 0);
-            framebuffer.texture=shadowMapTex;
+            gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
         }
 
-        //SIMPLE SHADOW MAP
+        gl.clearColor(0.0,0.0,0.0,0.0);
+        gl.viewport(0,0,shadowMapSize,shadowMapSize);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+
+        gl.useProgram(depthShaderId);
+
+        gl.uniform1i(gl.getUniformLocation(depthShaderId, "activePlane"), config.activePlane ? 1 : 0);
+        if (config.activePlane)
+        {
+            gl.uniform1f(gl.getUniformLocation(depthShaderId, "pDist"), simpleCutPlane.distN);
+            gl.uniform3fv(gl.getUniformLocation(depthShaderId, "pNormal"), new Float32Array([simpleCutPlane.normal[0], simpleCutPlane.normal[1], simpleCutPlane.normal[2]]));
+        }
         var lightDir = vec3(config.lightDir.x, config.lightDir.y, config.lightDir.z);
         var lightView = lookAt(vec3(), lightDir, [1, 0, 0]);
-        var lightProjection = ortho(-4, 4, -4, 4, -4, 4);
-        lightVP = mult(lightProjection, lightView);
+        var lightProjection = ortho(-8, 8, -8, 8, -8, 8);
+        var lightVP = mult(lightProjection, lightView);
 
 
         gl.uniformMatrix4fv(gl.getUniformLocation(depthShaderId, "lightVP"), false, flatten(lightVP));
-
-
         gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 1);
         DrawPlane(groundPlane, depthShaderId, groundPlaneModelMat);
         DrawPlane(backWallPlane, depthShaderId, wallPlaneModelMat);
@@ -701,7 +703,16 @@ function Draw()
         gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 0);
         DrawSphere(depthShaderId, model, view);
         DrawMonkey(depthShaderId, monkeyModel, view);
-    }
+    }*/
+   // else if(config.lightType ==1)
+   // {
+        CubeProjection = perspective(90, 1.0, 1.0, 250.0);
+        gl.useProgram(depthShaderId);
+
+
+        for(var i =0; i<6;i++)
+        {
+            if (!config.showShadowMap)
 
 
 
@@ -750,23 +761,29 @@ function Draw()
                                                                                         simpleCutPlane.normal[2]]));
         }
 
+       // gl.uniformMatrix4fv(gl.getUniformLocation(shaderId,"lightVP"), false, flatten(lightVP));
 
-
-
-        if(config.lightType === 1)
-        {
-            gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_CUBE_MAP, shadowCubemapTex);
-            gl.uniform1i(gl.getUniformLocation(shaderId, "shadowCube"), 0);
-        }
-        else
+       /* if(config.lightType ==0)
         {
             gl.uniformMatrix4fv(gl.getUniformLocation(shaderId,"lightVP"), false, flatten(lightVP));
             gl.activeTexture(gl.TEXTURE0);
+
             gl.bindTexture(gl.TEXTURE_2D, shadowMapTex);
             gl.uniform1i(gl.getUniformLocation(shaderId, "shadowMapTexture"), 0);
+
         }
-        gl.uniform1i(gl.getUniformLocation(shaderId, "isPlane"), 1);
+        else
+        {
+
+
+
+        }*/
+        gl.uniform1f(gl.getUniformLocation(shaderId,"shadowBias"),config.shadowBias);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_CUBE_MAP, shadowCubemapTex);
+        gl.uniform1i(gl.getUniformLocation(shaderId, "shadowCube"), 0);
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId,"lightVP"), false, flatten(CubeVP));
+
 
         if (config.visualizePlane)
             DrawPlane(planeModel, shaderId, cPModel);
@@ -776,7 +793,10 @@ function Draw()
 
         //Back Plane
         DrawPlane(backWallPlane,shaderId,wallPlaneModelMat);
+
+        //Draw models
         gl.uniform1i(gl.getUniformLocation(shaderId, "isPlane"), 0);
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId,"normalMat"),false, transpose(inverse(view)));
         DrawSphere(shaderId, model, view);
         DrawMonkey(shaderId,monkeyModel,view);
 
@@ -785,11 +805,16 @@ function Draw()
         gl.uniformMatrix4fv(gl.getUniformLocation(lightModelShaderId, "projection"), false, flatten(projection));
 
         if(config.lightType == 0)
+        {
             DrawArrow(lightModelShaderId, lightArrow);
-        else
+            gl.bindTexture(gl.TEXTURE_2D, null);
+        }
+        else {
             DrawStar(lightModelShaderId, lightStar);
+            gl.bindTexture(gl.TEXTURE_CUBE_MAP,null);
+        }
 
-        gl.bindTexture(gl.TEXTURE_2D, null);
+
     }
     requestAnimationFrame(Draw);
 }
@@ -849,6 +874,9 @@ window.onload = function()
     DirLightFolder.add(config.lightDir,'y').step(0.1);
     DirLightFolder.add(config.lightDir,'z').step(0.1);
 
+    //Shadow
+    var shadowFolder = gui.addFolder("Shadows");
+    shadowFolder.add(config,"shadowBias").step(0.01);
 
     //Camera
     var cameraFolder = gui.addFolder('Camera');

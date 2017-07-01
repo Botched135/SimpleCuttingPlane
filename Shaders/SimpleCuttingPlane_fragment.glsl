@@ -18,9 +18,9 @@ uniform mat4 view;
 uniform vec3 lightPos;
 
 //Shadow Map
-uniform sampler2D shadowMapTexture;
+//uniform sampler2D shadowMapTexture;
 uniform samplerCube shadowCube;
-
+uniform float shadowBias;
 
 //Cutting Plane
 uniform float pDist;
@@ -33,6 +33,7 @@ in vec3 vLightDirEyeSpace;
 in vec3 vIncidentLight;
 in vec3 vVertexES;
 in vec4 vPositionFromLight;
+in vec3 pNormalView;
 
 out vec4 colour_Out;
 
@@ -43,16 +44,30 @@ float unpackDepth(const in vec4 rgba_depth)
     return depth;
 }
 
-
-float CubeMapShadow(in vec3 VertexCoord, in float bias, in float darkness)
+float CubeMapShadow(float darkness)
 {
-    vec3 direction = VertexCoord-lightPos;
-    float vertexDepth = clamp(length(direction),0.0,3.0);
-    vertexDepth = vertexDepth/3.0;
-    float shadowMapDepth = unpackDepth(texture(shadowCube,normalize(direction)))+bias;
+   vec3 direction = vWorldSpace-lightPos;
+   float fragDepth =clamp(length(direction),0.0,1.0);
 
-    return shadowMapDepth;
+   float shadowMapDepth = unpackDepth(texture(shadowCube,direction))+shadowBias;
 
+   return (fragDepth > shadowMapDepth) ? darkness : 1.0;
+
+}
+float VectorToDepthValue(vec3 vector)
+{
+    vec3 AbsVec= abs(vector);
+    float LocalZcomp = max(AbsVec.x,max(AbsVec.y,AbsVec.z));
+
+    const float f = 2048.0;
+    const float n = 1.0;
+    float NormZCom = (f+n)/(f-n)-(2.0*f*n)/(f-n)/LocalZcomp;
+    return (NormZCom+1.0)*0.5;
+}
+float ComputeShadowFactor(vec3 lightToFrag, float darkness)
+{
+    float ShadowVec = unpackDepth(texture(shadowCube, lightToFrag));
+    return (ShadowVec+0.001) > VectorToDepthValue(lightToFrag) ? 1.0 : darkness;
 }
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {
@@ -70,19 +85,27 @@ void main()
 {
     if(dot(pNormal,vWorldSpace)+pDist >= 0.0 && isPlane == 0 && activePlane ==1)
         discard;
+
+    float visibility = 1.0;
+    vec3 towardEye = normalize(-vViewDir);
     //Shadows
-    float visibility;
-    if(lightType == 0)
+   /* if(lightType == 0)
     {
-        vec3 shadowCoord =(vPositionFromLight.xyz/vPositionFromLight.w);
+        vec3 shadowCoord = (vPositionFromLight.xyz/vPositionFromLight.w);
         vec4 depthShadow = texture(shadowMapTexture,shadowCoord.xy);
         float depth = unpackDepth(depthShadow);
-        visibility = (shadowCoord.z > depth+0.1) ? 0.6 : 1.0;
+
+        if(shadowCoord.z > depth+0.1)
+        {
+            visibility = 0.7;
+        }
     }
-    else
-        visibility =CubeMapShadow(vWorldSpace,0.1,0.3);
-
-
+    else if(lightType ==1)
+    {*/
+        //currently error here.
+       // visibility = CubeMapShadow(0.1,0.6);
+       visibility = ComputeShadowFactor(vWorldSpace-lightPos,0.6);
+   // }
     vec4 color;
 
     vec3 towardEye = normalize(-vViewDir);
@@ -148,19 +171,17 @@ void main()
     }
     else
     {
-        vec3 tPviewPNormal = (transpose(inverse(view))*vec4(pNormal,0.0)).xyz;
-        vec3 insecPoint = intersectionPoint(vWorldSpace,towardEye);
-        vec3 noiseColor;
+        visibility = 1.0;
+
         if(lightType ==0)
         {
             vec3 halfWayPoint = (view*vec4(insecPoint,1.0)).xyz;
             att = 1.0;
-            vec3 tPviewPNormal = (transpose(inverse(view))*vec4(pNormal,0.0)).xyz;
             diffuse = max(dot(pNormal,lightDir),0.0);
 
             //Specular
             halfWayVec = normalize(normalize(halfWayPoint)+lightDir);
-            specular = dot(halfWayVec,tPviewPNormal);
+            specular = dot(halfWayVec,pNormalView);
             if(specular > 0.0)
                 specularColorOut = pow(specular,specularExponent) * specularColor*att;
             else
@@ -183,11 +204,11 @@ void main()
                     att = 1.0;
 
 
-                diffuse = max(dot(normalize(planeIncidentLight),(transpose(inverse(view))*vec4(pNormal,1.0)).xyz),0.0);
+                diffuse = max(dot(normalize(planeIncidentLight),pNormalView),0.0);
 
                 halfWayVec = normalize(normalize(planeIncidentLight)+normalize(-(view*vec4(insecPoint,0.0)).xyz));
 
-                specular = dot(halfWayVec,tPviewPNormal);
+                specular = dot(halfWayVec,pNormalView);
                 if(specular > 0.0)
                     specularColorOut = pow(specular,specularExponent) * specularColor*att;
                 else
@@ -213,5 +234,4 @@ void main()
             colour_Out = vec4(color.xyz*visibility,color.w);
         }
     }
-   // colour_Out = vec4(visibility,0.0,0.0,1.0);
 }
