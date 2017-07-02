@@ -43,7 +43,7 @@ var Config = function()
         {
             x: -0.3,
             y: 0.4,
-            z: 0.5
+            z: 1.5
 
         };
     this.cameraPos =
@@ -57,7 +57,7 @@ var Config = function()
     this.cuttingPlaneTrans =
         {
             x: 0.0,
-            y: 0.0,
+            y: -1.8,
             z: 0.0
         };
     this.cuttingPlaneRot =
@@ -850,8 +850,9 @@ function Draw()
 
         //Draw models
         gl.uniform1i(gl.getUniformLocation(shaderId, "isPlane"), 0);
-        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId,"normalMat"),false, transpose(inverse(view)));
+
         DrawSphere(shaderId, model, view);
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId, "normalTrans"), false, flatten(inverse(transpose(mult(view, monkeyModel)))));
         DrawMonkey(shaderId,monkeyModel,view);
 
         gl.useProgram(lightModelShaderId);

@@ -65,7 +65,7 @@ vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
     float NormFrag = pNormal.x*FragmentPos.x + pNormal.y*FragmentPos.y + pNormal.z*FragmentPos.z;
     float NormEye = pNormal.x * VectorToEye.x + pNormal.y * VectorToEye.y + pNormal.z * VectorToEye.z;
 
-    float t = (-pDist-NormFrag)/NormEye;
+    float t = -((-pDist-NormFrag)/NormEye);
     res = vec3(FragmentPos.x+(t*VectorToEye.x),FragmentPos.y+(t*VectorToEye.y),FragmentPos.z+(t*VectorToEye.z));
 
     return res;
@@ -104,6 +104,7 @@ void main()
     float diffuse, specular, att, distance;
     vec4 diffuseColorOut;
     vec4 specularColorOut;
+    vec3 pNormView = normalize(pNormalView);
 
 
     if(gl_FrontFacing)
@@ -181,6 +182,7 @@ void main()
             float dotProd = dot(pNormal,towardEye);
             if(dotProd > 0.0)
             {
+
                 vec3 insecPoint = intersectionPoint(vWorldSpace,towardEye);
                 vec3 planeIncidentLight = (view*vec4(lightPos-insecPoint,0.0)).xyz;
 
@@ -191,11 +193,12 @@ void main()
                     att = 1.0;
 
 
-                diffuse = max(dot(normalize(planeIncidentLight),pNormalView),0.0);
 
-                halfWayVec = normalize(normalize(planeIncidentLight)+normalize(-(view*vec4(insecPoint,0.0)).xyz));
+                diffuse = max(dot(normalize(planeIncidentLight),pNormView),0.0);
 
-                specular = dot(halfWayVec,pNormalView);
+                halfWayVec = normalize(normalize(planeIncidentLight)+normalize(-insecPoint));
+
+                specular = dot(halfWayVec,pNormView);
                 if(specular > 0.0)
                     specularColorOut = pow(specular,specularExponent) * specularColor*att;
                 else
@@ -207,7 +210,7 @@ void main()
 
         if(isPlane == 1)
         {
-            color = (vec4(0.5,0.5,0.5,1.0)*(ambientColor+diffuseColorOut/*+specularColorOut*/));
+            color = (vec4(0.5,0.5,0.5,1.0)*(ambientColor+diffuseColorOut+specularColorOut));
             color.w = 1.0;
             colour_Out = vec4(color.xyz*visibility,color.w);
         }
@@ -216,6 +219,7 @@ void main()
             color =modelColor*(ambientColor+diffuseColorOut+specularColorOut);
             color.w = 1.0;
             colour_Out = vec4(color.xyz*visibility,color.w);
+
         }
     }
 }
