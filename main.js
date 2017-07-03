@@ -789,6 +789,7 @@ function Draw()
         gl.uniform3fv(gl.getUniformLocation(shaderId,"attenuation"),new Float32Array([config.attenuation.constant,config.attenuation.linear,config.attenuation.quadratic]));
 
         gl.uniform1i(gl.getUniformLocation(shaderId, "activePlane"), config.activePlane ? 1 : 0);
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId, "pNormalTrans"), false, flatten(inverse(transpose(mult(view, cPModel)))));
 
 
         var projection = perspective(60, gl.canvas.width / gl.canvas.height, 0.1, 1000);
@@ -845,14 +846,18 @@ function Draw()
             DrawPlane(planeModel, shaderId, cPModel);
 
         //Bottom plane,
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId, "normalTrans"), false, flatten(inverse(transpose(mult(view, groundPlaneModelMat)))));
         DrawPlane(groundPlane, shaderId, groundPlaneModelMat);
 
+        //TODO:
         //Back Plane
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId, "normalTrans"), false, flatten(inverse(transpose(mult(view, wallPlaneModelMat)))));
         DrawPlane(backWallPlane,shaderId,wallPlaneModelMat);
 
         //Draw models
         gl.uniform1i(gl.getUniformLocation(shaderId, "isPlane"), 0);
 
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId, "normalTrans"), false, flatten(inverse(transpose(mult(view, model)))));
         DrawSphere(shaderId, model, view);
         gl.uniformMatrix4fv(gl.getUniformLocation(shaderId, "normalTrans"), false, flatten(inverse(transpose(mult(view, monkeyModel)))));
         DrawMonkey(shaderId,monkeyModel,view);

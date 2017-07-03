@@ -35,6 +35,7 @@ in vec3 vIncidentLight;
 in vec3 vVertexES;
 in vec4 vPositionFromLight;
 in vec3 pNormalView;
+in vec3 vEyePos;
 
 
 out vec4 colour_Out;
@@ -62,10 +63,13 @@ float ComputeShadowFactor(vec3 lightToFrag, float darkness)
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {
     vec3 res;
+    float A = FragmentPos.x+FragmentPos.y+FragmentPos.z;
+    float B = VectorToEye.x+VectorToEye.x+VectorToEye.x+A;
+    /*
     float NormFrag = pNormal.x*FragmentPos.x + pNormal.y*FragmentPos.y + pNormal.z*FragmentPos.z;
     float NormEye = pNormal.x * VectorToEye.x + pNormal.y * VectorToEye.y + pNormal.z * VectorToEye.z;
-
-    float t = -((-pDist-NormFrag)/NormEye);
+    */
+    float t = ((pDist-A)/B);
     res = vec3(FragmentPos.x+(t*VectorToEye.x),FragmentPos.y+(t*VectorToEye.y),FragmentPos.z+(t*VectorToEye.z));
 
     return res;
@@ -77,7 +81,7 @@ void main()
         discard;
 
     float visibility = 1.0;
-    vec3 towardEye = normalize(-vViewDir);
+    vec3 towardEye = normalize(vEyePos-vWorldSpace);
     //Shadows
    /* if(lightType == 0)
     {
@@ -151,6 +155,7 @@ void main()
             color = (vec4(0.5,0.5,0.5,1.0)*(ambientColor+diffuseColorOut/*+specularColorOut*/));
             color.w = 1.0;
             colour_Out = vec4(color.xyz*visibility,color.w);
+            colour_Out =vec4(diffuse,0.0,0.0,1.0);
         }
         else
         {
@@ -162,7 +167,8 @@ void main()
     else
     {
         visibility = 1.0;
-
+        vec3 insecPoint;
+        vec3 planeIncidentLight;
         if(lightType ==0)
         {
             vec3 halfWayPoint = (view*vec4(intersectionPoint(vWorldSpace,towardEye),1.0)).xyz;
@@ -180,11 +186,12 @@ void main()
         else
         {
             float dotProd = dot(pNormal,towardEye);
+
             if(dotProd > 0.0)
             {
 
-                vec3 insecPoint = intersectionPoint(vWorldSpace,towardEye);
-                vec3 planeIncidentLight = (view*vec4(lightPos-insecPoint,0.0)).xyz;
+                insecPoint = intersectionPoint(vWorldSpace,pNormal);
+                planeIncidentLight = (view*(vec4(lightPos,1.0)-vec4(insecPoint,1.0))).xyz;
 
                 distance = length(planeIncidentLight);
 
@@ -192,7 +199,7 @@ void main()
                 if(att > 1.0)
                     att = 1.0;
 
-
+                att = 1.0;
 
                 diffuse = max(dot(normalize(planeIncidentLight),pNormView),0.0);
 
@@ -219,6 +226,7 @@ void main()
             color =modelColor*(ambientColor+diffuseColorOut+specularColorOut);
             color.w = 1.0;
             colour_Out = vec4(color.xyz*visibility,color.w);
+            //colour_Out = vec4(diffuse,0.0,0.0,1.0);
 
         }
     }
