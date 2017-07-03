@@ -98,7 +98,7 @@ void main()
     {*/
         //currently error here.
        // visibility = CubeMapShadow(0.1,0.6);
-       visibility = ComputeShadowFactor(vWorldSpace-lightPos,0.6);
+      visibility = ComputeShadowFactor(vWorldSpace-lightPos,0.6);
    // }
     vec4 color;
 
@@ -155,7 +155,6 @@ void main()
             color = (vec4(0.5,0.5,0.5,1.0)*(ambientColor+diffuseColorOut/*+specularColorOut*/));
             color.w = 1.0;
             colour_Out = vec4(color.xyz*visibility,color.w);
-            colour_Out =vec4(diffuse,0.0,0.0,1.0);
         }
         else
         {
@@ -191,7 +190,7 @@ void main()
             {
 
                 insecPoint = intersectionPoint(vWorldSpace,pNormal);
-                planeIncidentLight = (view*(vec4(lightPos,1.0)-vec4(insecPoint,1.0))).xyz;
+                planeIncidentLight = (view*(vec4(lightPos-insecPoint,0.0))).xyz;
 
                 distance = length(planeIncidentLight);
 
@@ -201,7 +200,8 @@ void main()
 
                 att = 1.0;
 
-                diffuse = max(dot(normalize(planeIncidentLight),pNormView),0.0);
+                //TODO: Acts weird when light gets low Y value..
+                diffuse = max(dot(normalize(planeIncidentLight),pNormalView),0.0);
 
                 halfWayVec = normalize(normalize(planeIncidentLight)+normalize(-insecPoint));
 
@@ -226,7 +226,7 @@ void main()
             color =modelColor*(ambientColor+diffuseColorOut+specularColorOut);
             color.w = 1.0;
             colour_Out = vec4(color.xyz*visibility,color.w);
-            //colour_Out = vec4(diffuse,0.0,0.0,1.0);
+           // colour_Out = vec4(diffuse,0.0,0.0,1.0);
 
         }
     }

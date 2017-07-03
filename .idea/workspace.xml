@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dce2ac0d-090c-4c75-b902-efb8c83c2543" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl" afterPath="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl" afterPath="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.js" afterPath="$PROJECT_DIR$/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -36,11 +33,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="528">
-              <caret line="791" column="63" lean-forward="false" selection-start-line="791" selection-start-column="63" selection-end-line="791" selection-end-column="63" />
+              <caret line="791" column="134" lean-forward="true" selection-start-line="791" selection-start-column="134" selection-end-line="791" selection-end-column="134" />
               <folding>
                 <element signature="e#0#41#0" expanded="false" />
                 <element signature="n#!!block;n#MouseMove#0" expanded="false" />
@@ -56,18 +53,18 @@
       <file leaf-file-name="SimpleCuttingPlane_vertex.glsl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="46" column="21" lean-forward="false" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
+            <state relative-caret-position="561">
+              <caret line="33" column="50" lean-forward="true" selection-start-line="33" selection-start-column="50" selection-end-line="33" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SimpleCuttingPlane_fragment.glsl" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SimpleCuttingPlane_fragment.glsl" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1079">
-              <caret line="143" column="48" lean-forward="true" selection-start-line="143" selection-start-column="48" selection-end-line="143" selection-end-column="48" />
+            <state relative-caret-position="552">
+              <caret line="202" column="64" lean-forward="false" selection-start-line="202" selection-start-column="64" selection-end-line="202" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -138,9 +135,9 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl" />
         <option value="$PROJECT_DIR$/Shaders/ShadowDepth_vertex.glsl" />
-        <option value="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl" />
         <option value="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl" />
         <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl" />
       </list>
     </option>
   </component>
@@ -377,7 +374,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="161726000" />
+    <option name="totallyTimeSpent" value="162188000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -671,26 +668,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1079">
-          <caret line="143" column="48" lean-forward="true" selection-start-line="143" selection-start-column="48" selection-end-line="143" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="46" column="21" lean-forward="false" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
-          <caret line="791" column="63" lean-forward="false" selection-start-line="791" selection-start-column="63" selection-end-line="791" selection-end-column="63" />
+          <caret line="791" column="134" lean-forward="true" selection-start-line="791" selection-start-column="134" selection-end-line="791" selection-end-column="134" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
             <element signature="n#!!block;n#MouseMove#0" expanded="false" />
@@ -699,6 +680,22 @@
             <marker date="1499114875408" expanded="false" signature="32348:32474" ph="{...}" />
             <marker date="1499114875408" expanded="false" signature="32499:32526" ph="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="50" lean-forward="true" selection-start-line="33" selection-start-column="50" selection-end-line="33" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="202" column="64" lean-forward="false" selection-start-line="202" selection-start-column="64" selection-end-line="202" selection-end-column="64" />
+          <folding />
         </state>
       </provider>
     </entry>
