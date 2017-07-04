@@ -22,13 +22,15 @@ vec4 packDepth(const in float depth)
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {
     vec3 res;
-    float NormFrag = pNormal.x*FragmentPos.x + pNormal.y*FragmentPos.y + pNormal.z*FragmentPos.z;
-    float NormEye = pNormal.x * VectorToEye.x + pNormal.y * VectorToEye.y + pNormal.z * VectorToEye.z;
 
-    float t = -((-pDist-NormFrag)/NormEye);
-    res = vec3(FragmentPos.x+(t*VectorToEye.x),FragmentPos.y+(t*VectorToEye.y),FragmentPos.z+(t*VectorToEye.z));
 
-    return res;
+        float A = pNormal.x*FragmentPos.x + pNormal.y*FragmentPos.y + pNormal.z*FragmentPos.z;
+        float B = pNormal.x * VectorToEye.x + pNormal.y * VectorToEye.y + pNormal.z * VectorToEye.z;
+
+        float t = ((-pDist-A)/B);
+        res = vec3(FragmentPos.x+(t*VectorToEye.x),FragmentPos.y+(t*VectorToEye.y),FragmentPos.z+(t*VectorToEye.z));
+
+        return res;
 }
 
 void main()
@@ -42,5 +44,5 @@ void main()
     if(gl_FrontFacing)
         colour_Out = packDepth(gl_FragCoord.z);
     else
-        colour_Out = packDepth(intersectionPoint(gl_FragCoord.xyz,pNormalView).z);
+        colour_Out = packDepth(intersectionPoint(gl_FragCoord.xyz,pNormal).z);
 }

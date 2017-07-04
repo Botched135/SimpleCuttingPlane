@@ -63,13 +63,9 @@ float ComputeShadowFactor(vec3 lightToFrag, float darkness)
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {
     vec3 res;
-    float A = FragmentPos.x+FragmentPos.y+FragmentPos.z;
-    float B = VectorToEye.x+VectorToEye.x+VectorToEye.x+A;
-    /*
-    float NormFrag = pNormal.x*FragmentPos.x + pNormal.y*FragmentPos.y + pNormal.z*FragmentPos.z;
-    float NormEye = pNormal.x * VectorToEye.x + pNormal.y * VectorToEye.y + pNormal.z * VectorToEye.z;
-    */
-    float t = ((pDist-A)/B);
+    float A = pNormal.x*FragmentPos.x + pNormal.y*FragmentPos.y + pNormal.z*FragmentPos.z;
+    float B = pNormal.x * VectorToEye.x + pNormal.y * VectorToEye.y + pNormal.z * VectorToEye.z;
+    float t = ((-pDist-A)/B);
     res = vec3(FragmentPos.x+(t*VectorToEye.x),FragmentPos.y+(t*VectorToEye.y),FragmentPos.z+(t*VectorToEye.z));
 
     return res;
@@ -200,12 +196,12 @@ void main()
 
                 att = 1.0;
 
-                //TODO: Acts weird when light gets low Y value..
-                diffuse = max(dot(normalize(planeIncidentLight),pNormalView),0.0);
+                //TODO: The pNormal has to be transformed in per-fragment(so do it on the CPU)
+                diffuse = max(dot(normalize(planeIncidentLight),(transpose(inverse(view))*vec4(pNormal,0.0)).xyz),0.0);
 
                 halfWayVec = normalize(normalize(planeIncidentLight)+normalize(-insecPoint));
 
-                specular = dot(halfWayVec,pNormView);
+                specular = dot(halfWayVec,(transpose(inverse(view))*vec4(pNormal,0.0)).xyz);
                 if(specular > 0.0)
                     specularColorOut = pow(specular,specularExponent) * specularColor*att;
                 else
@@ -226,7 +222,7 @@ void main()
             color =modelColor*(ambientColor+diffuseColorOut+specularColorOut);
             color.w = 1.0;
             colour_Out = vec4(color.xyz*visibility,color.w);
-           // colour_Out = vec4(diffuse,0.0,0.0,1.0);
+            //colour_Out = vec4(insecPoint.z,0.0,0.0,1.0);
 
         }
     }

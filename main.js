@@ -58,11 +58,11 @@ var Config = function()
         {
             x: 0.0,
             y: 0.0,
-            z: 0.0
+            z: -2.0
         };
     this.cuttingPlaneRot =
         {
-            rotX : -54.0,
+            rotX : -90.0,
             rotY : 0.0,
             rotZ : 0.0
 
@@ -755,13 +755,12 @@ function Draw()
                 cubeVP = mult(cubeProjection, CubeView);
                 gl.uniformMatrix4fv(gl.getUniformLocation(depthShaderId, "lightVP"), false, flatten(cubeVP));
                 gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 1);
-                gl.uniformMatrix4fv(gl.getUniformLocation(depthShaderId, "normalTrans"),false, transpose(inverse(CubeView,model)));
+                gl.uniformMatrix4fv(gl.getUniformLocation(depthShaderId, "normalTrans"),false, flatten(transpose(inverse(mult(CubeView,cPModel)))));
                 DrawPlane(groundPlane, depthShaderId, groundPlaneModelMat);
                 DrawPlane(backWallPlane, depthShaderId, wallPlaneModelMat);
 
                 gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 0);
                 DrawSphere(depthShaderId, model, view);
-                gl.uniformMatrix4fv(gl.getUniformLocation(depthShaderId, "normalTrans"),false, transpose(inverse(CubeView,monkeyModel)));
 
                 DrawMonkey(depthShaderId, monkeyModel, view);
 
