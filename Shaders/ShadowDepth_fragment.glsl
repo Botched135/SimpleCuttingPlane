@@ -1,13 +1,13 @@
 #version 300 es
-precision mediump float;
+precision highp float;
 
 
 uniform int isPlane;
 uniform int activePlane;
+uniform vec3 pNormalView;
 uniform vec3 pNormal;
 uniform float pDist;
 
-in vec3 pNormalView;
 in vec3 vWorldPos;
 
 out vec4 colour_Out;
@@ -27,7 +27,7 @@ vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
         float A = pNormal.x*FragmentPos.x + pNormal.y*FragmentPos.y + pNormal.z*FragmentPos.z;
         float B = pNormal.x * VectorToEye.x + pNormal.y * VectorToEye.y + pNormal.z * VectorToEye.z;
 
-        float t = ((-pDist-A)/B);
+        float t = (-(pDist+A)/B);
         res = vec3(FragmentPos.x+(t*VectorToEye.x),FragmentPos.y+(t*VectorToEye.y),FragmentPos.z+(t*VectorToEye.z));
 
         return res;
@@ -44,5 +44,6 @@ void main()
     if(gl_FrontFacing)
         colour_Out = packDepth(gl_FragCoord.z);
     else
-        colour_Out = packDepth(intersectionPoint(gl_FragCoord.xyz,pNormal).z);
+        colour_Out = packDepth(intersectionPoint(vWorldPos,pNormalView).z);
+
 }
