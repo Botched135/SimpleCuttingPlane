@@ -848,6 +848,7 @@ function Draw()
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_CUBE_MAP, shadowCubemapTex);
         gl.uniform1i(gl.getUniformLocation(shaderId, "shadowCube"), 0);
+        gl.uniformMatrix4fv(gl.getUniformLocation(shaderId, "lightVP"), false, flatten(dirVP));
         gl.activeTexture(gl.TEXTURE1);
         gl.bindTexture(gl.TEXTURE_2D, shadowMapTex);
         gl.uniform1i(gl.getUniformLocation(shaderId, "shadowMapTexture"),1);

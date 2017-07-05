@@ -87,9 +87,9 @@ void main()
        depthShadow = texture(shadowMapTexture,shadowCoord.xy);
        float depth = unpackDepth(depthShadow);
 
-       if(shadowCoord.z > depth)
+       if(shadowCoord.z > depth+0.025)
        {
-           visibility = 0.7;
+           visibility = 0.6;
        }
    }
    else
@@ -117,7 +117,7 @@ void main()
             //Specular
             halfWayVec = normalize(normalize(vVertexES)+lightDir);
             specular = dot(halfWayVec,normalES);
-            if(specular > 0.0 /*&& visibility >= 1.0*/)
+            if(specular > 0.0 && visibility >= 1.0)
                 specularColorOut = pow(specular,specularExponent) * specularColor*att;
             else
                 specularColorOut = vec4(0.0,0.0,0.0,0.0);

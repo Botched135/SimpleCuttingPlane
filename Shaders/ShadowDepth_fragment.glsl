@@ -44,6 +44,6 @@ void main()
     if(gl_FrontFacing)
         colour_Out = packDepth(gl_FragCoord.z);
     else
-        colour_Out = packDepth(intersectionPoint(vWorldPos,pNormalView).z);
+        colour_Out = packDepth(intersectionPoint(vWorldPos,pNormalView).z); //TODO: do it properly with directional
 
 }
