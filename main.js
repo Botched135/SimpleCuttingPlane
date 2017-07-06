@@ -17,7 +17,7 @@ var Config = function()
     this.rotateCamera = true;
     this.modelColor = [ 127 , 127 , 127 ];
     this.ambientlightColor = [ 255 , 255 , 255 ];
-    this.ambientlightIntensity = 0.2;
+    this.ambientlightIntensity = 0.01;
     this.diffuselightColor = [ 255 , 255 , 255 ];
     this.diffuselightIntensity = 0.6;
     this.specularlightColor = [255, 255, 255];
@@ -25,7 +25,7 @@ var Config = function()
     this.specularlightExponent = 60.0;
     this.activePlane = true;
     this.visualizePlane = false;
-    this.shadowBias = 0.5;
+    this.shadowBias = 0.02;
     this.attenuation =
         {
             constant : 1.0,
@@ -702,8 +702,10 @@ function Draw()
     //SHADOWS
     //SIMPLE SHADOW MAP
     gl.useProgram(depthShaderId);
-
-   // if(config.lightType === 1)
+    gl.uniform1i(gl.getUniformLocation(depthShaderId,"lightType"),config.lightType);
+    gl.uniform3fv(gl.getUniformLocation(depthShaderId, "lightDir"), new Float32Array([config.lightDir.x, config.lightDir.y, config.lightDir.z]));
+    gl.uniform3fv(gl.getUniformLocation(depthShaderId,"lightPos"), new Float32Array([config.lightPos.x,config.lightPos.y,config.lightPos.z]));
+    if(config.lightType == 1)
     {
         for (var i = 0; i < 6; i++)
         {
@@ -733,17 +735,20 @@ function Draw()
             gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 1);
 
 
-            pNormalView = mult(transpose(inverse(CubeView)),vec4(simpleCutPlane.normal,0.0));
+            pNormalView = mult(transpose(inverse(mult(CubeView,model))),vec4(simpleCutPlane.normal,0.0));
             gl.uniform3fv(gl.getUniformLocation(depthShaderId, "pNormalView"), new Float32Array([pNormalView[0],pNormalView[1],pNormalView[2]]));
             DrawPlane(groundPlane, depthShaderId, groundPlaneModelMat);
             DrawPlane(backWallPlane, depthShaderId, wallPlaneModelMat);
 
             gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 0);
-            DrawSphere(depthShaderId, model, view);
+
+            DrawSphere(depthShaderId, model, view)
+            pNormalView = mult(transpose(inverse(mult(CubeView,monkeyModel))),vec4(simpleCutPlane.normal,0.0));
+            gl.uniform3fv(gl.getUniformLocation(depthShaderId, "pNormalView"), new Float32Array([pNormalView[0],pNormalView[1],pNormalView[2]]));
             DrawMonkey(depthShaderId, monkeyModel, view);
         }
     }
-   // else
+    else
     {
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         if(!config.showShadowMap)
@@ -761,8 +766,8 @@ function Draw()
             gl.uniform3fv(gl.getUniformLocation(depthShaderId, "pNormal"), new Float32Array([simpleCutPlane.normal[0], simpleCutPlane.normal[1], simpleCutPlane.normal[2]]));
         }
         var lightDir = vec3(config.lightDir.x, config.lightDir.y, config.lightDir.z);
-        var lightView = lookAt(vec3(), lightDir, [1, 0, 0]);
-        var lightProjection = ortho(-8, 8, -8, 8, -8, 8);
+        var lightView = lookAt([0,0,0], lightDir, [1, 0, 0]);
+        var lightProjection = ortho(-7, 7, -7, 7, -7, 7);
         dirVP = mult(lightProjection, lightView);
 
 
@@ -798,7 +803,7 @@ function Draw()
         gl.uniform3fv(gl.getUniformLocation(shaderId,"attenuation"),new Float32Array([config.attenuation.constant,config.attenuation.linear,config.attenuation.quadratic]));
 
         gl.uniform1i(gl.getUniformLocation(shaderId, "activePlane"), config.activePlane ? 1 : 0);
-        pNormalView = mult(transpose(inverse(view)),vec4(simpleCutPlane.normal,0.0));
+        pNormalView = mult(transpose(inverse(view,model)),vec4(simpleCutPlane.normal,0.0));
         gl.uniform3fv(gl.getUniformLocation(shaderId, "pNormalView"), new Float32Array([pNormalView[0],pNormalView[1],pNormalView[2]]));
 
 
@@ -827,23 +832,6 @@ function Draw()
                                                                                         simpleCutPlane.normal[2]]));
         }
 
-       // gl.uniformMatrix4fv(gl.getUniformLocation(shaderId,"lightVP"), false, flatten(lightVP));
-
-       /* if(config.lightType ==0)
-        {
-            gl.uniformMatrix4fv(gl.getUniformLocation(shaderId,"lightVP"), false, flatten(lightVP));
-            gl.activeTexture(gl.TEXTURE0);
-
-            gl.bindTexture(gl.TEXTURE_2D, shadowMapTex);
-            gl.uniform1i(gl.getUniformLocation(shaderId, "shadowMapTexture"), 0);
-
-        }
-        else
-        {
-
-
-
-        }*/
         gl.uniform1f(gl.getUniformLocation(shaderId,"shadowBias"),config.shadowBias);
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_CUBE_MAP, shadowCubemapTex);
@@ -951,7 +939,7 @@ window.onload = function()
 
     //Shadow
     var shadowFolder = gui.addFolder("Shadows");
-    shadowFolder.add(config,"shadowBias").step(0.01);
+    shadowFolder.add(config,"shadowBias").step(0.001);
 
     //Camera
     var cameraFolder = gui.addFolder('Camera');

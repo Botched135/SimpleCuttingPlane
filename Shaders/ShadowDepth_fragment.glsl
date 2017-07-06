@@ -4,16 +4,19 @@ precision highp float;
 
 uniform int isPlane;
 uniform int activePlane;
+uniform int lightType;
 uniform vec3 pNormalView;
 uniform vec3 pNormal;
 uniform float pDist;
 
-in vec3 vWorldPos;
 
+in vec3 vWorldPos;
+in vec3 vLightPos;
+in vec3 vLightDir;
 out vec4 colour_Out;
 vec4 packDepth(const in float depth)
 {
-    const vec4 bitShift = vec4((256.0*256.0*256.0),(256.0*256.0),256,1.0);
+    const vec4 bitShift = vec4(16777216.0, 65536.0, 256.0, 1.0);
     const vec4 bitMask = vec4(0.0, 1.0/256.0,1.0/256.0,1.0/256.0);
     vec4 res = fract(depth*bitShift);
     res -= res.xxyz*bitMask;
@@ -44,6 +47,12 @@ void main()
     if(gl_FrontFacing)
         colour_Out = packDepth(gl_FragCoord.z);
     else
-        colour_Out = packDepth(intersectionPoint(vWorldPos,pNormalView).z); //TODO: do it properly with directional
+    {
+        if(lightType == 1)
+            colour_Out = packDepth(intersectionPoint(vWorldPos,normalize(vLightPos-vWorldPos)).z); //TODO: do it properly with directional
+        else
+            colour_Out =  packDepth(intersectionPoint(vWorldPos,-normalize(vLightDir)).z);
+    }
+
 
 }
