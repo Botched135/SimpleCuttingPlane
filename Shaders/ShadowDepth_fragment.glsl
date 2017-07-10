@@ -5,14 +5,17 @@ precision highp float;
 uniform int isPlane;
 uniform int activePlane;
 uniform int lightType;
+
+
 uniform vec3 pNormalView;
 uniform vec3 pNormal;
 uniform float pDist;
-
+uniform mat4 lightVP;
 
 in vec3 vWorldPos;
-in vec3 vLightPos;
 in vec3 vLightDir;
+in vec3 vLightPos;
+
 out vec4 colour_Out;
 vec4 packDepth(const in float depth)
 {
@@ -25,10 +28,9 @@ vec4 packDepth(const in float depth)
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {
     vec3 res;
-
-
-        float A = pNormal.x*FragmentPos.x + pNormal.y*FragmentPos.y + pNormal.z*FragmentPos.z;
+        float A = pNormal.x * FragmentPos.x + pNormal.y * FragmentPos.y + pNormal.z * FragmentPos.z;
         float B = pNormal.x * VectorToEye.x + pNormal.y * VectorToEye.y + pNormal.z * VectorToEye.z;
+
 
         float t = (-(pDist+A)/B);
         res = vec3(FragmentPos.x+(t*VectorToEye.x),FragmentPos.y+(t*VectorToEye.y),FragmentPos.z+(t*VectorToEye.z));
@@ -44,14 +46,17 @@ void main()
             discard;
     }
 
-    if(gl_FrontFacing)
+    if(gl_FrontFacing || isPlane == 1)
         colour_Out = packDepth(gl_FragCoord.z);
+
     else
     {
         if(lightType == 1)
-            colour_Out = packDepth(intersectionPoint(vWorldPos,normalize(vLightPos-vWorldPos)).z); //TODO: do it properly with directional
+            colour_Out = packDepth((lightVP*vec4(intersectionPoint(vWorldPos,vLightPos-vWorldPos),0.0)).z);
         else
-            colour_Out =  packDepth(intersectionPoint(vWorldPos,-normalize(vLightDir)).z);
+            colour_Out = packDepth((lightVP*vec4(intersectionPoint(vWorldPos, vLightDir),1.0)).z); //Translate the intersection point to fragment coords?
+
+            //Så snart de går helt lige på, så er de hvide, men det er som om den skiller halvvejs.
     }
 
 

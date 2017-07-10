@@ -36,13 +36,13 @@ var Config = function()
         {
             x: 0.0,
             y: -1.0,
-            z: -1.0
+            z: 0.1
         };
     this.lightPos =
         {
             x: -0.3,
             y: 0.4,
-            z: 1.5
+            z: 2.5
 
         };
     this.cameraPos =
@@ -61,7 +61,7 @@ var Config = function()
         };
     this.cuttingPlaneRot =
         {
-            rotX : -90.0,
+            rotX : 0.0,
             rotY : 0.0,
             rotZ : 0.0
 
@@ -595,34 +595,6 @@ function DrawStar(shaderId, star)
     gl.drawElements(gl.LINES, star.elementCount, gl.UNSIGNED_SHORT, 0);
 }
 
-function PointLightChanged()
-{
-    if(prevLightPos.x !== config.lightPos.x || prevLightPos.y !== config.lightPos.y || prevLightPos.z !== config.lightPos.z)
-    {
-        console.log("Figres");
-        prevLightPos = config.lightPos;
-        return true;
-    }
-
-    return false;
-}
-function DirectionalLightChanged()
-{
-    if(prevLightDir.x !== config.lightDir.x || prevLightDir.y !== config.lightDir.y || prevLightDir.z !== config.lightDir.z)
-    {
-        prevLightDir = config.lightDir;
-        return true;
-    }
-
-    return false;
-}
-function ScaleLight(intensity, color)
-{
-    var a = scale(intensity,hexToRgb(color));
-    a[3] = 1;
-    return new Float32Array(a);
-}
-
 function Setup()
 {
     canvas = document.getElementById('webgl-canvas');
@@ -735,16 +707,14 @@ function Draw()
             gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 1);
 
 
-            pNormalView = mult(transpose(inverse(mult(CubeView,model))),vec4(simpleCutPlane.normal,0.0));
+            pNormalView = mult(transpose(inverse(CubeView)),vec4(simpleCutPlane.normal,0.0));
             gl.uniform3fv(gl.getUniformLocation(depthShaderId, "pNormalView"), new Float32Array([pNormalView[0],pNormalView[1],pNormalView[2]]));
             DrawPlane(groundPlane, depthShaderId, groundPlaneModelMat);
             DrawPlane(backWallPlane, depthShaderId, wallPlaneModelMat);
 
             gl.uniform1i(gl.getUniformLocation(depthShaderId, "isPlane"), 0);
 
-            DrawSphere(depthShaderId, model, view)
-            pNormalView = mult(transpose(inverse(mult(CubeView,monkeyModel))),vec4(simpleCutPlane.normal,0.0));
-            gl.uniform3fv(gl.getUniformLocation(depthShaderId, "pNormalView"), new Float32Array([pNormalView[0],pNormalView[1],pNormalView[2]]));
+            DrawSphere(depthShaderId, model, view);
             DrawMonkey(depthShaderId, monkeyModel, view);
         }
     }

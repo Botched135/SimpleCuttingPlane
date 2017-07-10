@@ -14,3 +14,10 @@ function hexToRgb(hex) {
         1
     ]) : null;
 }
+
+function ScaleLight(intensity, color)
+{
+    var a = scale(intensity,hexToRgb(color));
+    a[3] = 1;
+    return new Float32Array(a);
+}

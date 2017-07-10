@@ -27,7 +27,6 @@ uniform float pDist;
 uniform vec3 pNormal;
 uniform vec3 pNormalView;
 
-in vec3 vViewDir;
 in vec3 vWorldSpace;
 in vec3 vNormalEyeSpace;
 in vec3 vLightDirEyeSpace;

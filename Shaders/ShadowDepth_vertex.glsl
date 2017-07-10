@@ -8,13 +8,14 @@ uniform mat4 lightVP;
 uniform vec3 lightPos;
 uniform vec3 lightDir;
 
-out vec3 vLightPos;
-out vec3 vLightDir;
 out vec3 vWorldPos;
+out vec3 vLightDir;
+out vec3 vLightPos;
 
-void main() {
+void main()
+{
     gl_Position = lightVP * model* vertex;
     vWorldPos = (model*vertex).xyz;
+    vLightDir = normalize(lightDir);
     vLightPos = lightPos;
-    vLightDir = lightDir;
 }

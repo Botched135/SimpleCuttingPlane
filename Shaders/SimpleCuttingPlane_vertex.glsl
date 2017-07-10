@@ -23,7 +23,6 @@ out vec3 vLightDirEyeSpace;
 out vec3 vIncidentLight;
 out vec4 vPositionFromLight;
 out vec3 vVertexES;
-out vec3 vViewDir;
 out vec3 vEyePos;
 
 
@@ -39,7 +38,6 @@ void main()
     vNormalEyeSpace = (normalTrans*vec4(normal,0.0)).xyz;
 
     vEyePos = EyePos;
-    vViewDir = (view*model*vertex).xyz;
     vIncidentLight = (view*(vec4(lightPos,1.0)-model*vertex)).xyz;
     vLightDirEyeSpace = (view*-(vec4(lightDir,0.0))).xyz;
 }
