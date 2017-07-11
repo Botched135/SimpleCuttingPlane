@@ -52,10 +52,9 @@ void main()
     else if(isPlane ==0)
     {
         if(lightType == 1)
-            colour_Out = packDepth((lightVP*vec4(intersectionPoint(vWorldPos,vLightPos-vWorldPos),0.0)).z);
+
+            colour_Out = packDepth(clamp((lightVP*vec4(intersectionPoint(vWorldPos,vLightPos-vWorldPos),1.0)).z/249.0,0.0,1.0));
         else
-            colour_Out = packDepth((lightVP*vec4(intersectionPoint(vWorldPos, vec3(0.0,0.0,1.0)),1.0)).z);
+            colour_Out = packDepth(clamp(((lightVP*vec4(intersectionPoint(vWorldPos, vLightDir),1.0)).z+7.0)/14.0,0.0,1.0));
     }
-
-
 }

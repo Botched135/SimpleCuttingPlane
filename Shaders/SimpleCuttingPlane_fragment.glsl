@@ -55,8 +55,8 @@ float VectorToDepthValue(vec3 vector)
 }
 float ComputeShadowFactor(vec3 lightToFrag, float darkness)
 {
-    float ShadowVec = unpackDepth(texture(shadowCube, lightToFrag));
-    return (ShadowVec+shadowBias) > VectorToDepthValue(lightToFrag) ? 1.0 : darkness;
+    float ShadowFloat = unpackDepth(texture(shadowCube, lightToFrag));
+    return ShadowFloat > VectorToDepthValue(lightToFrag) ? 1.0 : darkness;
 }
 vec3 intersectionPoint(vec3 FragmentPos, vec3 VectorToEye)
 {

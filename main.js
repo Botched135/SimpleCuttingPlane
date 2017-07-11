@@ -11,7 +11,7 @@ var Model = function()
 
 var Config = function()
 {
-    this.lightType = 0;
+    this.lightType = 1;
     this.backgroundColor = [0,0,0];
     this.showShadowMap = false;
     this.rotateCamera = true;
@@ -25,7 +25,7 @@ var Config = function()
     this.specularlightExponent = 60.0;
     this.activePlane = true;
     this.visualizePlane = false;
-    this.shadowBias = 0.02;
+    this.shadowBias = 0.01;
     this.attenuation =
         {
             constant : 1.0,
@@ -40,9 +40,9 @@ var Config = function()
         };
     this.lightPos =
         {
-            x: -0.3,
-            y: 0.4,
-            z: 2.5
+            x: 6.1,
+            y: 4.1,
+            z: -3.0
 
         };
     this.cameraPos =
@@ -61,9 +61,9 @@ var Config = function()
         };
     this.cuttingPlaneRot =
         {
-            rotX : 0.0,
-            rotY : 0.0,
-            rotZ : 0.0
+            rotX : -29.0,
+            rotY : 57.0,
+            rotZ : 72.0
 
         };
     //Ground plane
@@ -125,8 +125,6 @@ var dirVP;
 var shadowMapSize = 1024;
 var framebuffer;
 var cubeFramebufferArray = [];
-var prevLightPos = [];
-var prevLightDir = [];
 var shadowMapTex;
 var shadowCubemapTex;
 var shadowCubeMapFaces;
@@ -627,11 +625,10 @@ function Setup()
 
 
     //Shadowmap and Light Check
-    prevLightPos = [config.lightPos.x,config.lightPos.y,config.lightPos.z];
-    prevLightPos[0] = prevLightPos[0]+1;
     cubeVP = mat4();
-    cubeProjection = perspective(90, 1.0, 1.0, 250.0);
     dirVP = mat4();
+    cubeProjection = perspective(90, 1.0, 1.0, 250.0);
+
 
     window.onmousemove =MouseMove;
     window.onmousedown = MouseDown;
