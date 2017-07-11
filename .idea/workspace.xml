@@ -4,10 +4,6 @@
     <list default="true" id="dce2ac0d-090c-4c75-b902-efb8c83c2543" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl" afterPath="$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shaders/ShadowDepth_vertex.glsl" afterPath="$PROJECT_DIR$/Shaders/ShadowDepth_vertex.glsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl" afterPath="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl" afterPath="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Utilities/Convertors.js" afterPath="$PROJECT_DIR$/Utilities/Convertors.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.js" afterPath="$PROJECT_DIR$/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -42,20 +38,9 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="501" column="9" lean-forward="false" selection-start-line="501" selection-start-column="9" selection-end-line="501" selection-end-column="9" />
-              <folding>
-                <element signature="e#0#41#0" expanded="false" />
-                <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-                <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-                <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-                <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-                <element signature="n#!!block;n#Resize#0" expanded="false" />
-                <element signature="e#29473#32109#0" expanded="false" />
-                <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-                <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-                <element signature="n#!!block;n#MouseMove#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="208">
+              <caret line="19" column="37" lean-forward="false" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -63,8 +48,8 @@
       <file leaf-file-name="ShadowDepth_vertex.glsl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Shaders/ShadowDepth_vertex.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state relative-caret-position="272">
+              <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -73,8 +58,8 @@
       <file leaf-file-name="ShadowDepth_fragment.glsl" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="766">
-              <caret line="58" column="99" lean-forward="false" selection-start-line="58" selection-start-column="99" selection-end-line="58" selection-end-column="99" />
+            <state relative-caret-position="647">
+              <caret line="51" column="23" lean-forward="false" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -93,7 +78,7 @@
       <file leaf-file-name="SimpleCuttingPlane_fragment.glsl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1504">
+            <state relative-caret-position="2074">
               <caret line="122" column="12" lean-forward="true" selection-start-line="122" selection-start-column="12" selection-end-line="122" selection-end-column="12" />
               <folding />
             </state>
@@ -165,8 +150,8 @@
         <option value="$PROJECT_DIR$/Utilities/Convertors.js" />
         <option value="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl" />
         <option value="$PROJECT_DIR$/Shaders/SimpleCuttingPlane_vertex.glsl" />
-        <option value="$PROJECT_DIR$/main.js" />
         <option value="$PROJECT_DIR$/Shaders/ShadowDepth_vertex.glsl" />
+        <option value="$PROJECT_DIR$/main.js" />
         <option value="$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl" />
       </list>
     </option>
@@ -204,6 +189,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -278,8 +265,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -419,12 +404,13 @@
       <workItem from="1499343679146" duration="4000000" />
       <workItem from="1499365716821" duration="4790000" />
       <workItem from="1499588363579" duration="3128000" />
-      <workItem from="1499701238002" duration="12688000" />
+      <workItem from="1499701238002" duration="12802000" />
+      <workItem from="1499785862740" duration="3270000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="207465000" />
+    <option name="totallyTimeSpent" value="210849000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -433,12 +419,12 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25052083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -483,18 +469,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3655">
           <caret line="217" column="19" lean-forward="false" selection-start-line="217" selection-start-column="19" selection-end-line="217" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-            <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-            <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-            <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-            <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-            <element signature="n#!!block;n#Resize#0" expanded="false" />
-            <element signature="e#29473#32109#0" expanded="false" />
-            <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-            <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-            <element signature="n#!!block;n#MouseMove#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -529,18 +504,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-            <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-            <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-            <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-            <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-            <element signature="n#!!block;n#Resize#0" expanded="false" />
-            <element signature="e#29473#32109#0" expanded="false" />
-            <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-            <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-            <element signature="n#!!block;n#MouseMove#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -582,18 +546,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-            <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-            <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-            <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-            <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-            <element signature="n#!!block;n#Resize#0" expanded="false" />
-            <element signature="e#29473#32109#0" expanded="false" />
-            <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-            <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-            <element signature="n#!!block;n#MouseMove#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -698,6 +651,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="1" lean-forward="false" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2074">
+          <caret line="122" column="12" lean-forward="true" selection-start-line="122" selection-start-column="12" selection-end-line="122" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -721,45 +681,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Shaders/SimpleCuttingPlane_fragment.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1504">
-          <caret line="122" column="12" lean-forward="true" selection-start-line="122" selection-start-column="12" selection-end-line="122" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="501" column="9" lean-forward="false" selection-start-line="501" selection-start-column="9" selection-end-line="501" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-            <element signature="n#!!block;n#DrawPlane#0" expanded="false" />
-            <element signature="n#!!block;n#DrawMonkey#0" expanded="false" />
-            <element signature="n#!!block;n#DrawArrow#0" expanded="false" />
-            <element signature="n#!!block;n#DrawStar#0" expanded="false" />
-            <element signature="n#!!block;n#Resize#0" expanded="false" />
-            <element signature="e#29473#32109#0" expanded="false" />
-            <element signature="n#!!block;n#MouseDown#0" expanded="false" />
-            <element signature="n#!!block;n#MouseUp#0" expanded="false" />
-            <element signature="n#!!block;n#MouseMove#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="208">
+          <caret line="19" column="37" lean-forward="false" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Shaders/ShadowDepth_vertex.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state relative-caret-position="272">
+          <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Shaders/ShadowDepth_fragment.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="766">
-          <caret line="58" column="99" lean-forward="false" selection-start-line="58" selection-start-column="99" selection-end-line="58" selection-end-column="99" />
+        <state relative-caret-position="647">
+          <caret line="51" column="23" lean-forward="false" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
           <folding />
         </state>
       </provider>

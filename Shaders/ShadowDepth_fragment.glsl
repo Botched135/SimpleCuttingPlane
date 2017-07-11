@@ -49,14 +49,12 @@ void main()
     if(gl_FrontFacing || isPlane == 1)
         colour_Out = packDepth(gl_FragCoord.z);
 
-    else
+    else if(isPlane ==0)
     {
         if(lightType == 1)
             colour_Out = packDepth((lightVP*vec4(intersectionPoint(vWorldPos,vLightPos-vWorldPos),0.0)).z);
         else
-            colour_Out = packDepth((lightVP*vec4(intersectionPoint(vWorldPos, vLightDir),1.0)).z); //Translate the intersection point to fragment coords?
-
-            //Så snart de går helt lige på, så er de hvide, men det er som om den skiller halvvejs.
+            colour_Out = packDepth((lightVP*vec4(intersectionPoint(vWorldPos, vec3(0.0,0.0,1.0)),1.0)).z);
     }
 
 
